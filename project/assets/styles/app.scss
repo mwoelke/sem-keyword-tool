@@ -1,0 +1,25 @@
+@import "~bootstrap/scss/bootstrap";
+@import "~bootstrap-icons/font/bootstrap-icons.scss";
+
+
+body {
+    background-color: $light;
+}
+
+.container #login-row #login-column #login-box {
+    color: $dark;
+    background-color: $light;
+    padding: 15px;
+    margin-top: 50px;
+    max-width: 600px;
+    border: 1px solid $gray-600;
+    border-radius: 5px;
+}
+
+.container #login-row #login-column #login-box #login-form {
+    padding: 20px;
+}
+
+.container #login-row #login-column #login-box #login-form #register-link {
+    margin-top: -85px;
+}

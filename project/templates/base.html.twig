@@ -2,18 +2,47 @@
 <html>
     <head>
         <meta charset="UTF-8">
-        <title>{% block title %}Welcome!{% endblock %}</title>
-        {# Run `composer require symfony/webpack-encore-bundle`
-           and uncomment the following Encore helpers to start using Symfony UX #}
+        <meta name="theme-color" content="white" />
+        <meta name="apple-mobile-web-app-capable" content="yes">
+        <meta name="apple-mobile-web-app-status-bar-style" content="black">
+        <meta name="msapplication-TileColor" content="#FFFFFF">
+        <meta name="theme-color" content="white" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"> 
+        <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+        <meta http-equiv="Pragma" content="no-cache" />
+        <meta http-equiv="Expires" content="0" />
+
+
+        <title>{% block title %}SEM Keyword Tool{% endblock %}</title>
+        
+
         {% block stylesheets %}
-            {#{{ encore_entry_link_tags('app') }}#}
+            {{ encore_entry_link_tags('app') }}
         {% endblock %}
 
         {% block javascripts %}
-            {#{{ encore_entry_script_tags('app') }}#}
+            {{ encore_entry_script_tags('app') }}
         {% endblock %}
+
     </head>
+
     <body>
+        <!-- JS ERROR -->
+        <div id="error-js" class="overall bg-dark">
+            <div class="text-center text-light">
+                <h1><i  class="fab fa-fw fa-js"></i>&nbsp;Fehler</h1>
+                <p>Wenn Sie diesen Text lesen können funktioniert die App nicht richtig, weil Javascript nicht ausgeführt werden kann.</p>
+            </div>
+        </div>
+        <script type="text/javascript">
+            let errorJs = document.getElementById('error-js');
+            errorJs.remove();
+        </script>
+
+        <div class="container-fluid h-100 w-100">
         {% block body %}{% endblock %}
+        </div>
+        
     </body>
+
 </html>

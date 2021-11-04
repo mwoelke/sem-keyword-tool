@@ -2,18 +2,20 @@ version: '3'
 services:
   php-apache:
     container_name: sem-keyword_php-apache
-    image: webdevops/php-apache:8.0
+    image: sem-keyword-webserver:dev
     ports:
       - "8080:80"
       - "8443:443"
     volumes:
-      - ./project:/app/
+      - ./project:/app
     environment:
       WEB_DOCUMENT_ROOT: /app/public/
   database:
     container_name: sem-keyword_maria-db
     image: mariadb
     restart: always
+    volumes:
+      - ./db:/var/lib/mysql
     environment:
       MYSQL_ROOT_PASSWORD: i_am_root
       MYSQL_DATABASE: db01
