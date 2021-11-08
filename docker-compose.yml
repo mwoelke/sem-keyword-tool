@@ -13,9 +13,8 @@ services:
   database:
     container_name: sem-keyword_maria-db
     image: mariadb
-    restart: always
     volumes:
-      - ./db:/var/lib/mysql
+      - sem-keyword-db-pers:/var/lib/mysql
     environment:
       MYSQL_ROOT_PASSWORD: i_am_root
       MYSQL_DATABASE: db01
@@ -24,7 +23,6 @@ services:
   phpmyadmin:
     container_name: sem-keyword_phpmyadmin
     image: phpmyadmin/phpmyadmin
-    restart: always
     environment:
       PMA_HOST: database
     ports:
@@ -32,3 +30,5 @@ services:
       - 8444:443
     depends_on:
       - database
+volumes:
+  sem-keyword-db-pers:

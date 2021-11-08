@@ -16,10 +16,9 @@ class FrontendController extends AbstractController
     ) {
     }
 
-    #[Route('/domains', name: 'domains', methods: 'GET')]
-    public function frontendDomains(): Response
+    #[Route('/', name: 'main', methods: 'GET')]
+    public function frontendMain(): Response
     {
-        $domains = $this->domainRepository->findAll();
-        return $this->render('domains.html.twig', ['domains' => $domains]);
+        return $this->render('main.html.twig');
     }
 }

@@ -12,9 +12,7 @@
         <meta http-equiv="Pragma" content="no-cache" />
         <meta http-equiv="Expires" content="0" />
 
-
         <title>{% block title %}SEM Keyword Tool{% endblock %}</title>
-        
 
         {% block stylesheets %}
             {{ encore_entry_link_tags('app') }}
@@ -27,11 +25,11 @@
     </head>
 
     <body>
-        <!-- JS ERROR -->
+        {# Warning if JavaScript is not working #}
         <div id="error-js" class="overall bg-dark">
             <div class="text-center text-light">
-                <h1><i  class="fab fa-fw fa-js"></i>&nbsp;Fehler</h1>
-                <p>Wenn Sie diesen Text lesen können funktioniert die App nicht richtig, weil Javascript nicht ausgeführt werden kann.</p>
+                <h1><i class="bi bi-exclamation-triangle"></i>&nbsp;Warning</h1>
+                <p>It seems like your browser doesn't support JavaScript. Please enable JavaScript to use this app as intended.</p>
             </div>
         </div>
         <script type="text/javascript">
@@ -39,9 +37,18 @@
             errorJs.remove();
         </script>
 
+        {# Show navbar is user is logged in #}
+        {% if is_granted('IS_AUTHENTICATED_REMEMBERED') %}
+            {% include "header.html.twig" %}
+        {% endif %}
+        
+        {# Default container #}
         <div class="container-fluid h-100 w-100">
         {% block body %}{% endblock %}
         </div>
+
+        {# JavaScript container #}
+        {% block scripts %}{% endblock %}
         
     </body>
 

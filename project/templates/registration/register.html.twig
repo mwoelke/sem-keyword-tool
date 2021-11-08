@@ -1,26 +1,37 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Register | SEM Keyword Tool{% endblock %}
+{% block title %}Register | SEM Keyword Tool
+{% endblock %}
 
 {% block body %}
-    
+	<div class="row align-items-center h-100">
+		<div class="col-12 col-md-4 mx-auto text-center">
+			<h1 class="m-5">Register</h1>
+				<hr>
+                
+				{{ form_start(registrationForm) }}
+                <div class="input-group mb-2">
+                    {{form_errors(registrationForm.email)}}
+					<span class="input-group-text">
+						<i class="bi bi-person" title="Mail address"></i>
+					</span>
+					{{ form_widget(registrationForm.email, { 'attr': {'placeholder': 'E-Mail'}}) }}
+				</div>
 
-    <div id="login-row" class="row justify-content-center align-items-center">
-        <div id="login-column" class="col-md-6">
-            <div id="login-box" class="col-md-12">
-                <h1>Register</h1>
-                <hr>
-                {{ form_start(registrationForm) }}
-                {{ form_row(registrationForm.email) }}
-                {{ form_row(registrationForm.plainPassword, {
-                    label: 'Password'
-                }) }}
-                {{ form_row(registrationForm.agreeTerms) }}
+                <div class="input-group mb-2">
+                    {{form_errors(registrationForm.plainPassword)}}
+					<span class="input-group-text">
+						<i class="bi bi-key" title="Password"></i>
+					</span>
+					{{ form_widget(registrationForm.plainPassword, { 'attr': {'placeholder': 'Password'}}) }}
+				</div>
 
-                <button type="submit" class="btn btn-primary">Register</button>
-                {{ form_end(registrationForm) }}
-            </div>
-        </div>
-
-    </div>
+				<div class="d-grid gap-2">
+					<button class="btn btn-primary" type="submit">
+						<i class="bi bi-arrow-bar-right"></i>
+						Register</button>
+				</div>
+				{{ form_end(registrationForm) }}
+		</div>
+	</div>
 {% endblock %}

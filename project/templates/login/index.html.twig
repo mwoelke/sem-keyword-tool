@@ -1,35 +1,47 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Login | SEM Keyword Tool{% endblock %}
+{% block title %}Login | SEM Keyword Tool
+{% endblock %}
 
 {% block body %}
 
-{% if error %}
-    <div>{{ error.messageKey|trans(error.messageData, 'security') }}</div>
-{% endif %}
+	{% if error %}
+		<div class="alert alert-danger m-3">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+	{% endif %}
 
-<div class="row align-items-center h-100">
-    <div class="col-12 col-md-4 mx-auto text-center">
-        <div class="animate__animated animate__fadeInUp">
-            <h1 class="m-5">Keyword Tool</h1>
-            <form class="form-group" action="{{ path('login') }}" method="post">
+	<div class="row align-items-center h-100">
+		<div class="col-12 col-md-4 mx-auto text-center">
+			<h1 class="m-5">Login</h1>
+			<hr>
+			<form class="form-group" action="{{ path('login') }}" method="post">
 
-                <div class="input-group mb-2">
-                    <span class="input-group-text"><i class="bi bi-person"></i></span>
-                    <input class="form-control" type="text" id="username" name="_username" value="{{ last_username }}" placeholder="Username" required>
-                </div>
+				<div class="input-group mb-2">
+					<span class="input-group-text">
+						<i class="bi bi-person" title="Mail address"></i>
+					</span>
+					<input class="form-control" type="text" id="username" name="_username" value="{{ last_username }}" placeholder="E-Mail" required>
+				</div>
 
-                <div class="input-group mb-2">
-                    <span class="input-group-text"><i class="bi bi-key"></i></span>
-                    <input class="form-control" type="password" id="password" name="_password" placeholder="Password" required>
-                </div>
-                <input class="form-control" type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
-                
-                <div class="d-grid gap-2">
-                    <button class="btn btn-primary" type="submit"><i class="bi bi-arrow-bar-right"></i> Login</button>
-                </div>
-            </form>
-        </div>
-    </div>
-</div>
+				<div class="input-group mb-2">
+					<span class="input-group-text">
+						<i class="bi bi-key" title="Password"></i>
+					</span>
+					<input class="form-control" type="password" id="password" name="_password" placeholder="Password" required>
+				</div>
+				<input class="form-control" type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
+
+				<div class="d-grid gap-2">
+					<button class="btn btn-primary" type="submit">
+						<i class="bi bi-arrow-bar-right"></i>
+						Login</button>
+				</div>
+			</form>
+			<div class="card m-5">
+				<div class="card-body"><h2>Testing data:</h2>
+					<p>user@user.de:sh7up#KT!</p>
+					<p>admin@admin.de:sh7up#KT!</p>
+				</div>
+			</div>
+		</div>
+	</div>
 {% endblock %}

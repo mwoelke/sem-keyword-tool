@@ -20,7 +20,10 @@ Encore
      * Each entry will result in one JavaScript file (e.g. app.js)
      * and one CSS file (e.g. app.css) if your JavaScript imports CSS.
      */
+    //app.js is used on _every_ page
     .addEntry('app', './assets/app.js')
+    //main.js is used on pages rendered with vue (e.g. everything except login)
+    .addEntry('main', './assets/main.js')
 
     // enables the Symfony UX Stimulus bridge (used in assets/bootstrap.js)
     .enableStimulusBridge('./assets/controllers.json')
@@ -57,6 +60,8 @@ Encore
 
     // enables Sass/SCSS support
     .enableSassLoader()
+    // enable vue support
+    .enableVueLoader()
 
     // uncomment if you use TypeScript
     //.enableTypeScriptLoader()

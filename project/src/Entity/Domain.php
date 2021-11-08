@@ -5,28 +5,22 @@ namespace App\Entity;
 use App\Repository\DomainRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use ApiPlatform\Core\Annotation\ApiResource;
 use Doctrine\ORM\Mapping as ORM;
 
-/**
- * @ORM\Entity(repositoryClass=DomainRepository::class)
- */
+#[ORM\Entity(repositoryClass: DomainRepository::class)]
+#[ApiResource]
 class Domain
 {
-    /**
-     * @ORM\Id
-     * @ORM\GeneratedValue
-     * @ORM\Column(type="integer")
-     */
+    #[ORM\Id]
+    #[ORM\GeneratedValue]
+    #[ORM\Column(type: 'integer')]
     private $id;
 
-    /**
-     * @ORM\Column(type="string", length=255)
-     */
+    #[ORM\Column(type: 'string', length: 255)]
     private $domain;
 
-    /**
-     * @ORM\OneToMany(targetEntity=Keyword::class, mappedBy="domain")
-     */
+    #[ORM\OneToMany(targetEntity: Keyword::class, mappedBy:'domain')]
     private $keywords;
 
     public function __construct()
@@ -79,5 +73,30 @@ class Domain
         }
 
         return $this;
+    }
+
+    /**
+     * Get amount of uncategorized keywords for this domain
+     */
+    public function getAmountUncategorized()
+    {
+        return $this->keywords->filter(function (Keyword $keyword) {
+            return $keyword->getKeywordGroupKeywords()->count() === 0;
+        })
+            ->count();
+    }
+
+    /**
+     * Overwrite default serialization behaviour
+     *
+     * @return array
+     */
+    public function __serialize(): array
+    {
+        return [
+            'id' => $this->getId(),
+            'name' => $this->getDomain(),
+            'amount_uncategorized' => $this->getAmountUncategorized()
+        ];
     }
 }
