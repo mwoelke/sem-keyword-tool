@@ -2,36 +2,29 @@
 
 namespace App\Entity;
 
+use ApiPlatform\Core\Annotation\ApiResource;
 use App\Repository\KeywordGroupRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\ORM\Tools\ResolveTargetEntityListener;
 
-/**
- * @ORM\Entity(repositoryClass=KeywordGroupRepository::class)
- */
+#[ORM\Entity(repositoryClass:KeywordGroupRepository::class)]
+#[ApiResource]
 class KeywordGroup
 {
-    /**
-     * @ORM\Id
-     * @ORM\GeneratedValue
-     * @ORM\Column(type="integer")
-     */
+    #[ORM\Id]
+    #[ORM\GeneratedValue]
+    #[ORM\Column(type: 'integer')]
     private $id;
 
-    /**
-     * @ORM\Column(type="string", length=255)
-     */
+    #[ORM\Column(type: 'string', length: 255)]
     private $name;
 
-    /**
-     * @ORM\Column(type="integer")
-     */
+    #[ORM\Column(type: 'integer')]
     private $type;
 
-    /**
-     * @ORM\OneToMany(targetEntity=KeywordGroupKeyword::class, mappedBy="keywordGroup")
-     */
+    #[ORM\OneToMany(targetEntity:KeywordGroupKeyword::class, mappedBy:'keywordGroup')]
     private $keywordGroupKeywords;
 
     public function __construct()

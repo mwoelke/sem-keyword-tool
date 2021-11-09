@@ -8,31 +8,23 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
-#[ORM\Entity(repositoryClass:KeywordRepository::class)]
+#[ORM\Entity(repositoryClass: KeywordRepository::class)]
 #[ApiResource]
 class Keyword
 {
-    /**
-     * @ORM\Id
-     * @ORM\GeneratedValue
-     * @ORM\Column(type="integer")
-     */
+    #[ORM\Id]
+    #[ORM\GeneratedValue]
+    #[ORM\Column(type: 'integer')]
     private $id;
 
-    /**
-     * @ORM\Column(type="string", length=1000)
-     */
+    #[ORM\Column(type: 'string', length: 100)]
     private $keyword;
 
-    /**
-     * @ORM\ManyToOne(targetEntity=Domain::class, inversedBy="keywords")
-     * @ORM\JoinColumn(nullable=false)
-     */
+    #[ORM\ManyToMany(targetEntity: Domain::class, inversedBy: 'keywords')]
+    #[ORM\JoinColumn(nullable: false)]
     private $domain;
 
-    /**
-     * @ORM\OneToMany(targetEntity=KeywordGroupKeyword::class, mappedBy="keyword")
-     */
+    #[ORM\OneToMany(targetEntity: KeywordGroupKeyword::class, mappedBy: 'keyword')]
     private $keywordGroupKeywords;
 
     public function __construct()

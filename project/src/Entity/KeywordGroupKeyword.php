@@ -2,31 +2,25 @@
 
 namespace App\Entity;
 
+use ApiPlatform\Core\Annotation\ApiResource;
 use App\Repository\KeywordGroupKeywordRepository;
 use Doctrine\ORM\Mapping as ORM;
 
-/**
- * @ORM\Entity(repositoryClass=KeywordGroupKeywordRepository::class)
- */
+#[ORM\Entity(repositoryClass: KeywordGroupKeywordRepository::class)]
+#[ApiResource]
 class KeywordGroupKeyword
 {
-    /**
-     * @ORM\Id
-     * @ORM\GeneratedValue
-     * @ORM\Column(type="integer")
-     */
+    #[ORM\Id]
+    #[ORM\GeneratedValue]
+    #[ORM\Column(type: 'integer')]
     private $id;
 
-    /**
-     * @ORM\ManyToOne(targetEntity=Keyword::class, inversedBy="keywordGroupKeywords")
-     * @ORM\JoinColumn(nullable=false)
-     */
+    #[ORM\ManyToMany(targetEntity: Keyword::class, inversedBy: 'keywordGroupKeywords')]
+    #[ORM\JoinColumn(nullable: false)]
     private $keyword;
 
-    /**
-     * @ORM\ManyToOne(targetEntity=KeywordGroup::class, inversedBy="keywordGroupKeywords")
-     * @ORM\JoinColumn(nullable=false)
-     */
+    #[ORM\ManyToOne(targetEntity: KeywordGroup::class, inversedBy: 'keywordGroupKeywords')]
+    #[ORM\JoinColumn(nullable: false)]
     private $keywordGroup;
 
     public function getId(): ?int
