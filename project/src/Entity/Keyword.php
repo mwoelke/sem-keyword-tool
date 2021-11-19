@@ -6,6 +6,7 @@ use ApiPlatform\Core\Annotation\ApiResource;
 use App\Repository\KeywordRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Symfony\Component\Validator\Constraints as Assert;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: KeywordRepository::class)]
@@ -17,19 +18,22 @@ class Keyword
     #[ORM\Column(type: 'integer')]
     private $id;
 
-    #[ORM\Column(type: 'string', length: 100)]
-    private $keyword;
+    #[ORM\Column(type: 'string', length: 500)]
+    #[Assert\NotBlank()]
+    #[Assert\Length(min: 1, max: 500)]
+    private $name;
 
-    #[ORM\ManyToMany(targetEntity: Domain::class, inversedBy: 'keywords')]
+    #[ORM\ManyToOne(targetEntity: Domain::class, inversedBy: 'keywords')]
     #[ORM\JoinColumn(nullable: false)]
     private $domain;
 
-    #[ORM\OneToMany(targetEntity: KeywordGroupKeyword::class, mappedBy: 'keyword')]
-    private $keywordGroupKeywords;
+    #[ORM\ManyToMany(targetEntity: KeywordGroup::class, inversedBy: 'keywords')]
+    #[ORM\JoinTable(name: "keywords_keywordgroups")]
+    private $keywordGroups;
 
     public function __construct()
     {
-        $this->keywordGroupKeywords = new ArrayCollection();
+        $this->keywordGroups = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -37,14 +41,14 @@ class Keyword
         return $this->id;
     }
 
-    public function getKeyword(): ?string
+    public function getName(): ?string
     {
-        return $this->keyword;
+        return $this->name;
     }
 
-    public function setKeyword(string $keyword): self
+    public function setName(string $name): self
     {
-        $this->keyword = $keyword;
+        $this->name = $name;
 
         return $this;
     }
@@ -62,31 +66,25 @@ class Keyword
     }
 
     /**
-     * @return Collection|KeywordGroupKeyword[]
+     * @return Collection|KeywordGroup[]
      */
-    public function getKeywordGroupKeywords(): Collection
+    public function getKeywordGroups(): Collection
     {
-        return $this->keywordGroupKeywords;
+        return $this->keywordGroups;
     }
 
-    public function addKeywordGroupKeyword(KeywordGroupKeyword $keywordGroupKeyword): self
+    public function addKeywordGroup(KeywordGroup $keywordGroup): self
     {
-        if (!$this->keywordGroupKeywords->contains($keywordGroupKeyword)) {
-            $this->keywordGroupKeywords[] = $keywordGroupKeyword;
-            $keywordGroupKeyword->setKeyword($this);
+        if (!$this->keywordGroups->contains($keywordGroup)) {
+            $this->keywordGroups[] = $keywordGroup;
         }
 
         return $this;
     }
 
-    public function removeKeywordGroupKeyword(KeywordGroupKeyword $keywordGroupKeyword): self
+    public function removeKeywordGroup(KeywordGroup $keywordGroup): self
     {
-        if ($this->keywordGroupKeywords->removeElement($keywordGroupKeyword)) {
-            // set the owning side to null (unless already changed)
-            if ($keywordGroupKeyword->getKeyword() === $this) {
-                $keywordGroupKeyword->setKeyword(null);
-            }
-        }
+        $this->keywordGroups->removeElement($keywordGroup);
 
         return $this;
     }

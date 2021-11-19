@@ -6,10 +6,10 @@ use ApiPlatform\Core\Annotation\ApiResource;
 use App\Repository\KeywordGroupRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Symfony\Component\Validator\Constraints as Assert;
 use Doctrine\ORM\Mapping as ORM;
-use Doctrine\ORM\Tools\ResolveTargetEntityListener;
 
-#[ORM\Entity(repositoryClass:KeywordGroupRepository::class)]
+#[ORM\Entity(repositoryClass: KeywordGroupRepository::class)]
 #[ApiResource]
 class KeywordGroup
 {
@@ -19,17 +19,16 @@ class KeywordGroup
     private $id;
 
     #[ORM\Column(type: 'string', length: 255)]
+    #[Assert\NotBlank()]
+    #[Assert\Length(min: 1, max: 255)]
     private $name;
 
-    #[ORM\Column(type: 'integer')]
-    private $type;
-
-    #[ORM\OneToMany(targetEntity:KeywordGroupKeyword::class, mappedBy:'keywordGroup')]
-    private $keywordGroupKeywords;
+    #[ORM\ManyToMany(targetEntity: Keyword::class, mappedBy: 'keywordGroups')]
+    private $keywords;
 
     public function __construct()
     {
-        $this->keywordGroupKeywords = new ArrayCollection();
+        $this->keywords = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -49,43 +48,28 @@ class KeywordGroup
         return $this;
     }
 
-    public function getType(): ?int
-    {
-        return $this->type;
-    }
-
-    public function setType(int $type): self
-    {
-        $this->type = $type;
-
-        return $this;
-    }
-
     /**
-     * @return Collection|KeywordGroupKeyword[]
+     * @return Collection|Keyword[]
      */
-    public function getKeywordGroupKeywords(): Collection
+    public function getKeywords(): Collection
     {
-        return $this->keywordGroupKeywords;
+        return $this->keywords;
     }
 
-    public function addKeywordGroupKeyword(KeywordGroupKeyword $keywordGroupKeyword): self
+    public function addKeyword(Keyword $keyword): self
     {
-        if (!$this->keywordGroupKeywords->contains($keywordGroupKeyword)) {
-            $this->keywordGroupKeywords[] = $keywordGroupKeyword;
-            $keywordGroupKeyword->setKeywordGroup($this);
+        if (!$this->keywords->contains($keyword)) {
+            $this->keywords[] = $keyword;
+            $keyword->addKeywordGroup($this);
         }
 
         return $this;
     }
 
-    public function removeKeywordGroupKeyword(KeywordGroupKeyword $keywordGroupKeyword): self
+    public function removeKeyword(Keyword $keyword): self
     {
-        if ($this->keywordGroupKeywords->removeElement($keywordGroupKeyword)) {
-            // set the owning side to null (unless already changed)
-            if ($keywordGroupKeyword->getKeywordGroup() === $this) {
-                $keywordGroupKeyword->setKeywordGroup(null);
-            }
+        if ($this->keywords->removeElement($keyword)) {
+            $keyword->removeKeywordGroup($this);
         }
 
         return $this;

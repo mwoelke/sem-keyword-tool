@@ -3,8 +3,16 @@
 {% block title %}SEM Keyword Tool{% endblock %}
 
 {% block body %}
+<div id="app">
+    {% include "header.html.twig" %}
 
-<div id="app"></div>
+    <div class="app-container container">
+        <router-view></router-view>
+    </div>
+
+</div>
+
+
 
 {% endblock %}
 

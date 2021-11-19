@@ -2,14 +2,16 @@
 
 namespace App\Entity;
 
+use ApiPlatform\Core\Annotation\ApiResource;
+use ApiPlatform\Core\Annotation\ApiSubresource;
 use App\Repository\DomainRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
-use ApiPlatform\Core\Annotation\ApiResource;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: DomainRepository::class)]
-#[ApiResource]
+#[ApiResource(itemOperations: ['get', 'delete'], collectionOperations: ['get', 'post'])]
 class Domain
 {
     #[ORM\Id]
@@ -18,9 +20,11 @@ class Domain
     private $id;
 
     #[ORM\Column(type: 'string', length: 255)]
-    private $domain;
+    #[Assert\NotBlank()]
+    #[Assert\Length(min: 1, max: 255)]
+    private $name;
 
-    #[ORM\OneToMany(targetEntity: Keyword::class, mappedBy:'domain')]
+    #[ORM\OneToMany(mappedBy: 'domain', targetEntity: Keyword::class)]
     private $keywords;
 
     public function __construct()
@@ -33,14 +37,14 @@ class Domain
         return $this->id;
     }
 
-    public function getDomain(): ?string
+    public function getName(): ?string
     {
-        return $this->domain;
+        return $this->name;
     }
 
-    public function setDomain(string $domain): self
+    public function setName(string $name): self
     {
-        $this->domain = $domain;
+        $this->name = $name;
 
         return $this;
     }
@@ -73,30 +77,5 @@ class Domain
         }
 
         return $this;
-    }
-
-    /**
-     * Get amount of uncategorized keywords for this domain
-     */
-    public function getAmountUncategorized()
-    {
-        return $this->keywords->filter(function (Keyword $keyword) {
-            return $keyword->getKeywordGroupKeywords()->count() === 0;
-        })
-            ->count();
-    }
-
-    /**
-     * Overwrite default serialization behaviour
-     *
-     * @return array
-     */
-    public function __serialize(): array
-    {
-        return [
-            'id' => $this->getId(),
-            'name' => $this->getDomain(),
-            'amount_uncategorized' => $this->getAmountUncategorized()
-        ];
     }
 }

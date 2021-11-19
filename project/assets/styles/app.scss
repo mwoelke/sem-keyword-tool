@@ -6,6 +6,11 @@ body {
     background-color: $light;
 }
 
+#main-container {
+    padding: 0px;
+    margin: 0px;
+}
+
 .container #login-row #login-column #login-box {
     color: $dark;
     background-color: $light;

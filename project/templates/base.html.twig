@@ -37,13 +37,10 @@
             errorJs.remove();
         </script>
 
-        {# Show navbar is user is logged in #}
-        {% if is_granted('IS_AUTHENTICATED_REMEMBERED') %}
-            {% include "header.html.twig" %}
-        {% endif %}
+
         
         {# Default container #}
-        <div class="container-fluid h-100 w-100">
+        <div id="main-container" class="container-fluid h-100 w-100">
         {% block body %}{% endblock %}
         </div>
 
