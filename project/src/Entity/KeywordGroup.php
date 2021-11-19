@@ -8,23 +8,40 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Symfony\Component\Validator\Constraints as Assert;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: KeywordGroupRepository::class)]
-#[ApiResource]
+#[
+    ApiResource(
+        itemOperations: ['get', 'delete', 'patch'], //allow patch here to modify name
+        collectionOperations: ['get', 'post'],
+        normalizationContext: ['groups' => ['keyword_group:read']],
+        denormalizationContext: ['groups' => ['keyword_group:write']],
+        attributes: ['pagination_items_per_page' => 30] //show 30 entries per page (/api/keyword_groups?page=1 etc.)
+    )
+]
 class KeywordGroup
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column(type: 'integer')]
+    #[Groups(['keyword_group:read'])]
     private $id;
 
     #[ORM\Column(type: 'string', length: 255)]
     #[Assert\NotBlank()]
     #[Assert\Length(min: 1, max: 255)]
+    #[Groups(['keyword_group:read'])]
+    #[Groups(['keyword_group:write'])]
     private $name;
 
     #[ORM\ManyToMany(targetEntity: Keyword::class, mappedBy: 'keywordGroups')]
     private $keywords;
+
+    #[ORM\ManyToOne(targetEntity: Domain::class, inversedBy: 'keywordGroups')]
+    #[ORM\JoinColumn(nullable: false)]
+    #[Groups(['keyword_group:read'])]
+    private $domain;
 
     public function __construct()
     {
@@ -71,6 +88,18 @@ class KeywordGroup
         if ($this->keywords->removeElement($keyword)) {
             $keyword->removeKeywordGroup($this);
         }
+
+        return $this;
+    }
+
+    public function getDomain(): ?Domain
+    {
+        return $this->domain;
+    }
+
+    public function setDomain(?Domain $domain): self
+    {
+        $this->domain = $domain;
 
         return $this;
     }

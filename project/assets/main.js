@@ -1,6 +1,7 @@
 import Vue from 'vue';
 import VueRouter from 'vue-router';
 import ListDomains from './components/ListDomains.vue'
+import DomainDashboard from './components/DomainDashboard.vue'
 
 Vue.use(VueRouter)
 
@@ -10,6 +11,9 @@ const routes = [
     },
     {
         path: '/domains', component: ListDomains,
+    },
+    {
+        path: '/domain/:domainName', component: DomainDashboard
     }
 ];
 
