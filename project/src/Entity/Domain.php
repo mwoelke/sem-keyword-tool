@@ -2,8 +2,9 @@
 
 namespace App\Entity;
 
+use ApiPlatform\Core\Annotation\ApiFilter;
 use ApiPlatform\Core\Annotation\ApiResource;
-use ApiPlatform\Core\Annotation\ApiSubresource;
+use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
 use App\Repository\DomainRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -17,9 +18,10 @@ use Symfony\Component\Validator\Constraints as Assert;
         itemOperations: ['get', 'delete'],
         collectionOperations: ['get', 'post'],
         normalizationContext: ['groups' => ['domains:read']],
-        denormalizationContext: ['groups' => ['domains:write']]
+        denormalizationContext: ['groups' => ['domains:write']],
     )
 ]
+#[ApiFilter(SearchFilter::class, properties: ['name' => 'exact'])] //allow filtering by name (e.g. /api/domains?name=example.org )
 class Domain
 {
     #[ORM\Id]

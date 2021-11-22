@@ -26,8 +26,9 @@ export default {
         }
     },
     async mounted() {
-        //const response = await axios.get('/api/domain/' . );
-        
+        const response = await axios.get('/api/domains?name=' + this.$route.params.domainName);
+        this.domain = response.data["hydra:member"];
+        console.log(response);
     }
 }
 </script>
