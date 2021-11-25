@@ -15,7 +15,7 @@ const routes = [
         path: '/domains', component: ListDomains,
     },
     {
-        path: '/domain/:domainName', component: DomainDashboard
+        path: '/dashboard', component: DomainDashboard
     }
 ];
 

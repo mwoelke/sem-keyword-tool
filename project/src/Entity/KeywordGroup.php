@@ -2,8 +2,10 @@
 
 namespace App\Entity;
 
+use ApiPlatform\Core\Annotation\ApiFilter;
 use ApiPlatform\Core\Annotation\ApiResource;
 use App\Repository\KeywordGroupRepository;
+use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -32,6 +34,7 @@ class KeywordGroup
     #[Assert\NotBlank()]
     #[Assert\Length(min: 1, max: 255)]
     #[Groups(['keyword_groups:read', 'keyword_groups:write'])]
+    #[ApiFilter(SearchFilter::class, properties: ['name' => 'exact'])] //allow filtering by name (e.g. /api/keyword_groups?name=foo )
     private $name;
 
     #[ORM\ManyToMany(targetEntity: Keyword::class, mappedBy: 'keywordGroups')]
@@ -39,7 +42,8 @@ class KeywordGroup
 
     #[ORM\ManyToOne(targetEntity: Domain::class, inversedBy: 'keywordGroups')]
     #[ORM\JoinColumn(nullable: false)]
-    #[Groups(['keyword_groups:read'])]
+    #[Groups(['keyword_groups:read','keyword_groups:write'])]
+    #[ApiFilter(SearchFilter::class, properties: ['domain.id' => 'exact'])] //allow filtering by domain id
     private $domain;
 
     public function __construct()
@@ -80,6 +84,18 @@ class KeywordGroup
         }
 
         return $this;
+    }
+
+    /**
+     * Get amount of keywords.
+     * Api resource.
+     *
+     * @return integer
+     */
+    #[Groups(['keyword_groups:read'])]
+    public function getAmountKeywords(): int
+    {
+        return $this->keywords->count();
     }
 
     public function removeKeyword(Keyword $keyword): self

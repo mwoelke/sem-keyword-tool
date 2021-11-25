@@ -74,6 +74,34 @@ class Domain
         return $this->keywords;
     }
 
+    /**
+     * Get amount of unsorted keywords.
+     * Api resource.
+     *
+     * @return integer
+     */
+    #[Groups(['domains:read'])]
+    public function getAmountUnsortedKeywords(): int
+    {
+        $keywords = $this->getKeywords();
+        $keywords->filter(function(Keyword $keyword) {
+            return $keyword->getKeywordGroups()->count() === 0;
+        });
+        return $keywords->count();
+    }
+
+    /**
+     * Get amount keywords.
+     * Api resource.
+     *
+     * @return integer
+     */
+    #[Groups(['domains:read'])]
+    public function getAmountKeywords(): int
+    {
+        return $this->getKeywords()->count();
+    }
+
     public function addKeyword(Keyword $keyword): self
     {
         if (!$this->keywords->contains($keyword)) {

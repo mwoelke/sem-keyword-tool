@@ -13,7 +13,7 @@
       <span class="navbar-toggler-icon"></span>
     </button>
 
-    <div v-if="activeDomainId !== undefined" class="collapse navbar-collapse">
+    <div v-if="activeDomainId !== null" class="collapse navbar-collapse">
       <ul class="navbar-nav me-auto mb-2 mb-lg-0">
         <li class="nav-item">
           <router-link class="nav-link" to="/dashboard">Dashboard</router-link>
@@ -41,30 +41,29 @@
 <script>
 export default {
   name: "MainHeader",
-  data() {
+  data: function () {
     return {
-      get activeDomainId() {
-        return localStorage.activeDomainId !== null
-          ? localStorage.activeDomainId
-          : 0;
-      },
-      get activeDomainName() {
-        return localStorage.activeDomainName !== null
-          ? localStorage.activeDomainName
-          : 0;
-      },
+      activeDomainName: localStorage.getObject('activeDomain')?.name ?? 'SEM Keyword Tool',
+      // get activeDomainId() {
+
+      // },
+      // set activeDomainId(value) {
+      //   let activeDomain = localStorage.getObject("activeDomain");
+      //   activeDomain.id = value;
+      //   localStorage.setObject("activeDomain", activeDomain);
+      // },
+      activeDomainId: localStorage.getObject('activeDomain')?.id ?? 0
+      // get activeDomainName() {
+      //   return localStorage.activeDomainName !== null
+      //     ? localStorage.getObject("activeDomain").name
+      //     : 0;
+      // },
+      // set activeDomainName(value) {
+      //   let activeDomain = localStorage.getObject("activeDomain");
+      //   activeDomain.name = value;
+      //   localStorage.setObject("activeDomain", activeDomain);
+      // },
     };
-  },
-  mounted() {
-    //check if activeDomain is set in localStorage
-    if (
-      localStorage.activeDomain !== null &&
-      localStorage.activeDomainName !== null
-    ) {
-      //set local vars to vars from localStorage
-      this.activeDomainId = localStorage.activeDomainId;
-      this.activeDomainName = localStorage.activeDomainName;
-    }
-  },
+  }
 };
 </script>
