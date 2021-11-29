@@ -1,6 +1,16 @@
 <template>
   <nav class="navbar navbar-expand-lg navbar-dark bg-dark p-2">
-    <h1 class="navbar-brand m-0">{{ activeDomainName }}</h1>
+    <h1 class="navbar-brand m-0">
+      <template
+        v-if="
+          store.state.activeDomain !== null &&
+          store.state.activeDomain.name !== null
+        "
+      >
+        {{ store.state.activeDomain.name }}
+      </template>
+      <template v-else>SEM Keyword Tool</template>
+    </h1>
     <button
       class="navbar-toggler"
       type="button"
@@ -13,16 +23,29 @@
       <span class="navbar-toggler-icon"></span>
     </button>
 
-    <div v-if="activeDomainId !== null" class="collapse navbar-collapse">
-      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+    <div v-if="store.state.activeDomain !== null" class="collapse navbar-collapse">
+      <ul class="navbar-nav mx-auto mb-2 mb-lg-0">
         <li class="nav-item">
-          <router-link class="nav-link" to="/dashboard">Dashboard</router-link>
+          <router-link
+            class="nav-link"
+            :class="[$route.path == '/dashboard' ? 'active' : '']"
+            to="/dashboard"
+            >Dashboard</router-link
+          >
         </li>
         <li class="nav-item">
-          <router-link class="nav-link" to="/keywords">Keywords</router-link>
+          <router-link
+            class="nav-link"
+            :class="[$route.path == '/keywords' ? 'active' : '']"
+            to="/keywords"
+            >Keywords</router-link
+          >
         </li>
         <li class="nav-item">
-          <router-link class="nav-link" to="/keywordgroups"
+          <router-link
+            class="nav-link"
+            :class="[$route.path == '/keywordgroups' ? 'active' : '']"
+            to="/keywordgroups"
             >Keyword Groups</router-link
           >
         </li>
@@ -30,7 +53,12 @@
     </div>
     <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
       <li class="nav-item"></li>
-      <router-link class="nav-link" to="/domains">Switch Domain</router-link>
+      <router-link
+        class="nav-link"
+        :class="[$route.path == '/domains' ? 'active' : '']"
+        to="/domains"
+        >Switch Domain</router-link
+      >
       <li class="nav-item">
         <a class="nav-link" href="/logout">Logout</a>
       </li>
@@ -39,31 +67,14 @@
 </template>
 
 <script>
+import Store from "../lib/store";
 export default {
   name: "MainHeader",
-  data: function () {
+  data() {
     return {
-      activeDomainName: localStorage.getObject('activeDomain')?.name ?? 'SEM Keyword Tool',
-      // get activeDomainId() {
-
-      // },
-      // set activeDomainId(value) {
-      //   let activeDomain = localStorage.getObject("activeDomain");
-      //   activeDomain.id = value;
-      //   localStorage.setObject("activeDomain", activeDomain);
-      // },
-      activeDomainId: localStorage.getObject('activeDomain')?.id ?? 0
-      // get activeDomainName() {
-      //   return localStorage.activeDomainName !== null
-      //     ? localStorage.getObject("activeDomain").name
-      //     : 0;
-      // },
-      // set activeDomainName(value) {
-      //   let activeDomain = localStorage.getObject("activeDomain");
-      //   activeDomain.name = value;
-      //   localStorage.setObject("activeDomain", activeDomain);
-      // },
+      store: Store.data,
+      name: Store.data.state.activeDomain?.name ?? 1,
     };
-  }
+  },
 };
 </script>

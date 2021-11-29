@@ -65,6 +65,7 @@
 
 <script>
 import axios from "axios";
+import helper from '../lib/helper';
 
 export default {
   name: "DomainDashboard",
@@ -77,7 +78,7 @@ export default {
   },
   methods: {
     addNewKeywordGroup: function () {
-      addNewKeywordGroup();
+      helper.addNewKeywordGroup();
 
       /*
       let keywordGroupName = alert('Enter name');
