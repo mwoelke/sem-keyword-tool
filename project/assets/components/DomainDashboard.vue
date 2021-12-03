@@ -2,7 +2,7 @@
   <div>
     <div class="row">
       <div class="col-12">
-        <h1>{{ domain.name }}</h1>
+        <h1>{{ store.data.state.activeDomain.name }}</h1>
       </div>
     </div>
     <hr />
@@ -16,17 +16,26 @@
             <li
               class="list-group-item"
               :class="[
-                domain.amountUnsortedKeywords > 0
+                store.data.state.activeDomain.amountUnsortedKeywords > 0
                   ? 'bg-warning'
                   : 'bg-success bg-opacity-50',
               ]"
             >
-              Unsorted Keywords: {{ domain.amountUnsortedKeywords }}
+              Unsorted Keywords:
+              {{ store.data.state.activeDomain.amountUnsortedKeywords }}
             </li>
             <li class="list-group-item">
-              Keywords: {{ domain.amountKeywords }}
+              Keywords: {{ store.data.state.activeDomain.amountKeywords }}
             </li>
           </ul>
+          <div class="row">
+            <div class="col-6">
+              <button class="btn btn-primary">Sort keywords</button>
+            </div>
+            <div class="col-6 justify-content-end">
+              <button class="btn btn-secondary">Show all keywords</button>
+            </div>
+          </div>
         </div>
       </div>
       <div class="col-md-6">
@@ -45,16 +54,19 @@
                 </button>
               </div>
             </div>
-            <div v-if="keywordGroups === null">
+            <div v-if="store.data.state.keywordGroups === null">
               <p>No keyword sets created. Add some!</p>
             </div>
             <div class="v-else">
               <ul class="list-group list-group-flush">
-                <li v-for="keywordGroup in keywordGroups" :key="keywordGroup['@id']" class="list-group-item">
-                  {{keywordGroup.name}}
+                <li
+                  v-for="keywordGroup in store.data.state.keywordGroups"
+                  :key="keywordGroup['@id']"
+                  class="list-group-item"
+                >
+                  {{ keywordGroup.name }}
                 </li>
               </ul>
-                
             </div>
           </div>
         </div>
@@ -64,30 +76,17 @@
 </template>
 
 <script>
-import axios from "axios";
-import helper from '../lib/helper';
+import helper from "../lib/helper";
 
 export default {
   name: "DomainDashboard",
-  data() {
-    return {
-      domain: localStorage.getObject("activeDomain") ?? null,
-      keywordGroups:
-        localStorage.getObject("activeDomainKeywordGroups") ?? null,
-    };
+  props: ["store"],
+  async mounted() {
+    await this.store.data.loadKeywordGroups();
   },
   methods: {
     addNewKeywordGroup: function () {
-      helper.addNewKeywordGroup();
-
-      /*
-      let keywordGroupName = alert('Enter name');
-      if(keywordGroupName.length >= 1 && keywordGroupName.length <= 255) {
-        keywordGroup = {'name': keywordGroupName, 'domain': localStorage.getObject("activeDomain")["@id"]}
-        axios.post('/api/keyword_groups', keywordGroup);
-      } else {
-        alert('Invalid length');
-      }*/
+      helper.addNewKeywordGroup(this.store.data);
     },
   },
 };

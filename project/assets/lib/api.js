@@ -2,11 +2,11 @@ import axios from 'axios'
 export default {
     /**
      * Get keyword groups for domain with given name
-     * @param {String} domainName 
+     * @param {number} domainId 
      * @returns {Promise} Promise
      */
-    apiGetKeywordGroupsForDomain(domainName) {
-        return promise = axios.get("/api/keywordGroups?name=" + domainName)
+    apiGetKeywordGroupsForDomain(domainId) {
+        return axios.get(`/api/keyword_groups?domain.id=${domainId}`)
             .then((response) => response.data["hydra:member"]);
     },
 
@@ -20,12 +20,11 @@ export default {
     },
 
     /**
-     * Get all domains with given page
-     * @param {number} page 
+     * Get all domains 
      * @returns {Promise} Promise
      */
-    apiGetAllDomains(page) {
-        return axios.get("/api/domains?page=" + page)
+    apiGetAllDomains() {
+        return axios.get("/api/domains")
             .then((response) => response.data["hydra:member"]);
     },
 
@@ -36,5 +35,10 @@ export default {
      */
     apiPostAddNewDomain(domainName) {
         return axios.post("/api/domains", { domainName });
+    },
+
+    apiPostKeyword(keyword) {
+        console.log(keyword);
+        return axios.post("/api/keywords", keyword);
     }
 };

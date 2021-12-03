@@ -1,10 +1,12 @@
-import './lib/helper.js'
+import './lib/helper.js';
 import Vue from 'vue';
 import VueRouter from 'vue-router';
-import ListDomains from './components/ListDomains.vue'
-import DomainDashboard from './components/DomainDashboard.vue'
-import MainHeader from './components/MainHeader.vue'
-import Store from './lib/store'
+import ListDomains from './components/ListDomains.vue';
+import DomainDashboard from './components/DomainDashboard.vue';
+import MainHeader from './components/MainHeader.vue';
+import Store from './lib/store';
+import Import from './components/Import';
+//import {VueCsvImport} from 'vue-csv-import';
 
 Vue.use(VueRouter)
 
@@ -25,6 +27,11 @@ const routes = [
     {
         path: '/dashboard', 
         component: DomainDashboard,
+        props: {store: Store}
+    },
+    {
+        path: '/import',
+        component: Import,
         props: {store: Store}
     }
 ];

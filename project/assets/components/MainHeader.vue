@@ -59,6 +59,12 @@
         to="/domains"
         >Switch Domain</router-link
       >
+      <router-link
+        class="nav-link"
+        :class="[$route.path == '/import' ? 'active' : '']"
+        to="/import"
+        >Import Keywords</router-link
+      >
       <li class="nav-item">
         <a class="nav-link" href="/logout">Logout</a>
       </li>

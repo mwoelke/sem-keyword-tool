@@ -7,13 +7,9 @@ export default {
             activeDomain: null,
             keywordGroups: null
         },
-        domains: {
-            page: 1,
-            data: {}
-        },
-        async loadDomains(page) {
-            this.domains.page = page,
-            this.domains.data = await api.apiGetAllDomains(page)
+        domains: {},
+        async loadDomains() {
+            this.domains = await api.apiGetAllDomains();
         },
         setActiveDomain(data) {
             if (this.debug) {
@@ -34,14 +30,11 @@ export default {
             if (this.debug) console.log('clearActiveDomain triggered');
             this.state.activeDomain = null;
         },
-        getKeywordGroups() {
-            if (this.activeDomain === null) {
+        async loadKeywordGroups() {
+            if (this.state.activeDomain === null) {
                 throw "activeDomain is not set, can't get keyword groups";
             }
-            if (this.state.keywordGroups === null) {
-                this.state.keywordGroups = api.apiGetKeywordGroupsForDomain(this.activeDomain.name)
-            }
-            return this.state.keywordGroups;
+            this.setKeywordGroups(await api.apiGetKeywordGroupsForDomain(this.state.activeDomain.id));
         }
     }
 }

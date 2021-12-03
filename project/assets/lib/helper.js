@@ -11,23 +11,12 @@ export default {
             //create object for post
             let keywordGroup = {
                 'name': keywordGroupName,
-                'domain': localStorage.getObject("activeDomain")["@id"]
+                'domain': dataStore.state.activeDomain['@id']
             };
             //post object
-            api.apiPostKeywordGroup(keywordGroup).then(() => dataStore.getKeywordGroups());
+            api.apiPostKeywordGroup(keywordGroup).then(() => dataStore.loadKeywordGroups());
         } else {
             alert('Invalid length');
         }
-        //location.reload();
     }
 }
-
-//add new keyword through prompt
-    window.updateKeywordGroups = function () {
-        axios.get('/api/keyword_groups?domain.id=' + localStorage.getObject('activeDomain').id).then(function (response) {
-            if (response["hydra:member"] === undefined) {
-                response["hydra:member"] = {}
-            }
-            localStorage.setObject("activeDomainKeywordGroups", response["hydra:member"]);
-        })
-    }

@@ -10,6 +10,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Symfony\Component\Validator\Constraints as Assert;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: KeywordGroupRepository::class)]
@@ -22,6 +23,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
         attributes: ['pagination_items_per_page' => 30] //show 30 entries per page (/api/keyword_groups?page=1 etc.)
     )
 ]
+#[UniqueEntity(fields: ['name', 'domain'])] //keyword group has to be unique for given domain
 class KeywordGroup
 {
     #[ORM\Id]

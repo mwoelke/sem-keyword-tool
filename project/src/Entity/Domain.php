@@ -19,6 +19,7 @@ use Symfony\Component\Validator\Constraints as Assert;
         collectionOperations: ['get', 'post'],
         normalizationContext: ['groups' => ['domains:read']],
         denormalizationContext: ['groups' => ['domains:write']],
+        attributes: ['pagination_enabled' => false] //Disable pagination since we want to get all domains on load. Loading all domains once shouldn't be too bad.
     )
 ]
 #[ApiFilter(SearchFilter::class, properties: ['name' => 'exact'])] //allow filtering by name (e.g. /api/domains?name=example.org )
