@@ -9,7 +9,16 @@ export default {
         },
         domains: {},
         async loadDomains() {
+            if (this.debug) {
+                console.log('loadDomains called')
+            }
             this.domains = await api.apiGetAllDomains();
+            //update activeDomain
+            this.domains.forEach(element => {
+                if (element.id === this.state.activeDomain.id) {
+                    this.state.activeDomain = element;
+                }
+            })
         },
         setActiveDomain(data) {
             if (this.debug) {

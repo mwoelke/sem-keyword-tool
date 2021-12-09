@@ -49,6 +49,7 @@ export default {
         alert("Please import file first");
         return;
       }
+      let promises = [];
       this.csv.forEach((element) => {
         let id = null;
         this.store.data.domains.forEach((domain) => {
@@ -56,14 +57,16 @@ export default {
             id = domain["@id"];
           }
         });
-        console.log(id);
         if (id !== undefined && id !== null) {
-          api.apiPostKeyword({
+          promises.push(api.apiPostKeyword({
             name: element.keyword,
             domain: id
-          });
+          }).catch(() => {console.log()}));
         }
       });
+      console.log(promises);
+      //reload domains after all promises are solved
+      Promise.all(promises).then(() => {this.store.data.loadDomains()});
     },
   },
 };
