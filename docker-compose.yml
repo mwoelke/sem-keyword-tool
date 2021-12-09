@@ -1,9 +1,8 @@
-version: '3.8'
+version: "3.8"
 services:
-  php-apache:
+  webserver:
     container_name: sem-keyword_php-apache
-    build:
-      dockerfile: Dockerfile.dev
+    build: .
     image: sem-keyword-webserver:dev
     ports:
       - "8080:80"
