@@ -10,7 +10,7 @@ export default {
         domains: {},
         async loadDomains() {
             if (this.debug) {
-                console.log('loadDomains called')
+                console.log('loadDomains called');
             }
             this.domains = await api.apiGetAllDomains();
             //update activeDomain

@@ -33,7 +33,7 @@ class UserAuthenticator extends AbstractLoginFormAuthenticator
 
     public function start(Request $request, AuthenticationException $authException = null): Response
     {
-        if(substr($request->getPathInfo(), 0, 4) == '/api'){
+        if (substr($request->getPathInfo(), 0, 4) == '/api') {
             return new JsonResponse(['message' => 'Please provide either your login data in the request header or login with your credentials at /login'], 403);
         }
         $url = $this->getLoginUrl($request);
@@ -55,17 +55,28 @@ class UserAuthenticator extends AbstractLoginFormAuthenticator
         );
     }
 
+    /**
+     * Handle redirect after successfull authentification
+     *
+     * @param Request $request
+     * @param TokenInterface $token
+     * @param string $firewallName
+     * @return Response|null
+     */
     public function onAuthenticationSuccess(Request $request, TokenInterface $token, string $firewallName): ?Response
     {
-        // Prüft, ob Login durch Login-Form (hidden field namens "_redirect" in Formular) durchgeführt wurde und 
-        // leitet in diesem Fall immer auf App-Startseite um. Dies soll verhindern, dass User nach Logins auf API-Endpunkte weitergeleitet werden
-        // wenn AJAX Calls vor dem Login stattfinden.
-        // $redirect = $request->request->get('_redirect');
-        // Wenn $redirect == null, dann war es kein Form-Login, sondern (wahrscheinlich) ein AJAX Login und dann soll er auch an sein gewünschtes Ziel
-        // weitergeleitet werden, wovon er mangels auth zuvor abgehalten wurde  
-        if ($targetPath = $this->getTargetPath($request->getSession(), $firewallName)) {
+        //_redirect is a hidden field on /login. If set we know that it's a user and not some external API client
+        $redirect = $request->request->get('_redirect');
+        //always redirect to root page if it's a user
+        if ($redirect === 1) {
+            return new RedirectResponse('/');
+        }
+        //otherwise try to redirect to the path the client was requesting
+        $targetPath = $this->getTargetPath($request->getSession(), $firewallName);
+        if ($targetPath !== NULL) {
             return new RedirectResponse($targetPath);
         }
+        //redirect to root if no other case matches
         return new RedirectResponse('/');
     }
 
