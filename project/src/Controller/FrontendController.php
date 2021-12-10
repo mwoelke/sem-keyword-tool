@@ -16,13 +16,6 @@ class FrontendController extends AbstractController
     }
 
     #[Route('/', name: 'main', methods: 'GET')]
-    /**
-     * This is a (not so clever?) hack to rewrite every 404 GET request to the root page.
-     * Necessary because symfony will throw 404 for the routes provided by vue-router when accessed explicitely or on page refresh
-     * 
-     * Although this seems weird, I couldn't find a better way to do it lol.
-     */
-    #[Route('/{route}', methods: 'GET', name: 'vue-main', requirements: ['route' => ".*"], priority: -5)]
     public function frontendMain(): Response
     {
         //since this route will always match, we have to check if logged in manually 
@@ -31,5 +24,16 @@ class FrontendController extends AbstractController
             return $this->redirectToRoute('login');
         }
         return $this->render('main.html.twig');
+    }
+
+    /**
+     * This is a (not so clever?) hack to redirect every 404 GET request to the root page.
+     * Since this is a SPA with no persistent state, we need to redirect the user to root if he refreshes on e.g. '/dashboard'
+     * Although this seems weird, it works flawlessly lol.
+     */
+    #[Route('/{route}', methods: 'GET', name: 'vue-main', requirements: ['route' => ".*"], priority: -5)]
+    public function redirectToMain(): Response
+    {
+        return $this->redirectToRoute('main');
     }
 }
