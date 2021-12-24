@@ -6,6 +6,7 @@ import DomainDashboard from './components/DomainDashboard.vue';
 import MainHeader from './components/MainHeader.vue';
 import Store from './lib/store';
 import Import from './components/Import';
+import KeywordList from './components/KeywordList'
 //import {VueCsvImport} from 'vue-csv-import';
 
 Vue.use(VueRouter)
@@ -32,6 +33,11 @@ const routes = [
     {
         path: '/import',
         component: Import,
+        props: {store: Store}
+    },
+    {
+        path: '/keywords/:keyword_group?',
+        component: KeywordList,
         props: {store: Store}
     }
 ];

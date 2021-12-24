@@ -22,6 +22,16 @@
     }
 }
 
+.table-scroll {
+    position: relative;
+    height: 08%;
+    overflow: auto;
+}
+
+.table-scroll-y {
+    display: block;
+}
+
 body {
     background-color: $light;
 }

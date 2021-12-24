@@ -38,7 +38,21 @@ export default {
     },
 
     apiPostKeyword(keyword) {
-        console.log(keyword);
         return axios.post("/api/keywords", keyword);
+    },
+
+    /**
+     * @param {number} domain 
+     * @param {number} page 
+     * @returns {Promise} Promise
+     */
+    apiGetAllKeywordsForDomain(domain, page) {
+        return axios.get("/api/keywords?page=" + page + "&domain.id=" + domain)
+            .then((response) => response.data["hydra:member"]);
+    },
+
+    apiGetAllKeywordsForKeywordGroup(group, page) {
+        return axios.get("/api/keywords?page=" + page + "&keyword_group.id= " + group)
+            .then((response) => response.data["hydra:member"]);
     }
 };

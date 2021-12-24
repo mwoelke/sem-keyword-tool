@@ -2,8 +2,10 @@
 
 namespace App\Entity;
 
+use ApiPlatform\Core\Annotation\ApiFilter;
 use ApiPlatform\Core\Annotation\ApiResource;
 use App\Repository\KeywordRepository;
+use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -18,7 +20,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
         collectionOperations: ['get', 'post'],
         normalizationContext: ['groups' => ['keywords:read']],
         denormalizationContext: ['groups' => ['keywords:write']],
-        attributes: ['pagination_items_per_page' => 30] //show 30 entries per page (/api/keyword?page=1 etc.)
+        attributes: ['pagination_items_per_page' => 15] //show 15 entries per page (/api/keywords?page=1 etc.)
     )
 ]
 #[UniqueEntity(fields: ['name', 'domain'])] //keyword has to be unique for given domain
@@ -39,11 +41,13 @@ class Keyword
     #[ORM\ManyToOne(targetEntity: Domain::class, inversedBy: 'keywords')]
     #[ORM\JoinColumn(nullable: false)]
     #[Groups(['keywords:write', 'keywords:read'])]
+    #[ApiFilter(SearchFilter::class, properties: ['domain.id' => 'exact'])] //allow filtering by domain id
     private $domain;
 
     #[ORM\ManyToMany(targetEntity: KeywordGroup::class, inversedBy: 'keywords')]
     #[ORM\JoinTable(name: "keywords_keywordgroups")]
     #[Groups(['keywords:write', 'keywords:read'])]
+    #[ApiFilter(SearchFilter::class, properties: ['keyword_group.id' => 'exact'])] //allow filtering by keywordGroup id
     private $keywordGroups;
 
     public function __construct()
@@ -102,5 +106,17 @@ class Keyword
         $this->keywordGroups->removeElement($keywordGroup);
 
         return $this;
+    }
+
+    /**
+     * Get amount of asigned keyword groups
+     * Used for api
+     *
+     * @return integer
+     */
+    #[Groups(['keywords:read'])]
+    public function getAmountKeywordGroups(): int
+    {
+        return $this->keywordGroups->count();
     }
 }

@@ -2,7 +2,6 @@
 
 namespace App\Controller;
 
-use App\Repository\DomainRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
@@ -31,7 +30,7 @@ class FrontendController extends AbstractController
      * Since this is a SPA with no persistent state, we need to redirect the user to root if he refreshes on e.g. '/dashboard'
      * Although this seems weird, it works flawlessly lol.
      */
-    #[Route('/{route}', methods: 'GET', name: 'vue-main', requirements: ['route' => ".*"], priority: -5)]
+    #[Route('/{route}', methods: 'GET', name: 'refresh-redirect', requirements: ['route' => ".*"], priority: -5)]
     public function redirectToMain(): Response
     {
         return $this->redirectToRoute('main');

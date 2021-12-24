@@ -9,7 +9,7 @@
     <div class="row">
       <div class="col-md-6">
         <div class="col-md-12 card">
-          <div class="card-body">
+          <div class="card-body border-bottom">
             <h2 class="card-title">Keywords</h2>
           </div>
           <ul class="list-group list-group-flush">
@@ -28,19 +28,39 @@
               Keywords: {{ store.data.state.activeDomain.amountKeywords }}
             </li>
           </ul>
-          <div class="row">
+          <div class="row p-2">
             <div class="col-6">
-              <button class="btn btn-primary">Sort keywords</button>
+              <router-link
+                tag="button"
+                class="btn btn-primary"
+                :class="[
+                  store.data.state.activeDomain.amountUnsortedKeywords == 0
+                    ? 'disabled'
+                    : '',
+                ]"
+                to="/test"
+                >Sort keywords</router-link
+              >
             </div>
-            <div class="col-6 justify-content-end">
-              <button class="btn btn-secondary">Show all keywords</button>
+            <div class="col-6">
+              <router-link
+                tag="button"
+                class="btn btn-secondary float-end"
+                :class="[
+                  store.data.state.activeDomain.amountKeywords == 0
+                    ? 'disabled'
+                    : '',
+                ]"
+                to="/keywords"
+                >Show all keywords</router-link
+              >
             </div>
           </div>
         </div>
       </div>
       <div class="col-md-6">
         <div class="col-md-12 card">
-          <div class="card-body">
+          <div class="card-body border-bottom">
             <div class="row">
               <div class="col-8">
                 <h2 class="card-title">Keyword groups</h2>
@@ -54,20 +74,41 @@
                 </button>
               </div>
             </div>
-            <div v-if="store.data.state.keywordGroups === null">
-              <p>No keyword sets created. Add some!</p>
-            </div>
-            <div class="v-else">
-              <ul class="list-group list-group-flush">
-                <li
-                  v-for="keywordGroup in store.data.state.keywordGroups"
-                  :key="keywordGroup['@id']"
-                  class="list-group-item"
-                >
-                  {{ keywordGroup.name }}
-                </li>
-              </ul>
-            </div>
+          </div>
+          <div
+            v-if="
+              store.data.state.keywordGroups === null ||
+              store.data.state.keywordGroups.length === 0
+            "
+          >
+            <ul class="list-group list-group-flush">
+              <li class="list-group-item">
+                No keyword groups for this domain. Add some!
+              </li>
+            </ul>
+          </div>
+          <div v-else>
+            <ul class="list-group list-group-flush">
+              <li
+                v-for="keywordGroup in store.data.state.keywordGroups"
+                :key="keywordGroup['@id']"
+                class="list-group-item"
+              >
+                <div class="row">
+                  <div class="col-11">
+                    <router-link
+                      class="link-full"
+                      :to="'/keywords/' + keywordGroup.id"
+                    >
+                      {{ keywordGroup.name }}
+                    </router-link>
+                  </div>
+                  <div class="col-1 pointer" @click="downloadKeywordGroup(keywordGroup.id)">
+                    <i class="bi bi-download" title="Download keyword group"></i>
+                  </div>
+                </div>
+              </li>
+            </ul>
           </div>
         </div>
       </div>
@@ -88,6 +129,9 @@ export default {
     addNewKeywordGroup: function () {
       helper.addNewKeywordGroup(this.store.data);
     },
+    downloadKeywordGroup: function(id) {
+      console.log(id);
+    }
   },
 };
 </script>

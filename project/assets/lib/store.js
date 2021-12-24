@@ -14,11 +14,13 @@ export default {
             }
             this.domains = await api.apiGetAllDomains();
             //update activeDomain
-            this.domains.forEach(element => {
-                if (element.id === this.state.activeDomain.id) {
-                    this.state.activeDomain = element;
-                }
-            })
+            if (this.state.activeDomain !== null) {
+                this.domains.forEach(element => {
+                    if (element.id === this.state.activeDomain.id) {
+                        this.state.activeDomain = element;
+                    }
+                });
+            }
         },
         setActiveDomain(data) {
             if (this.debug) {
