@@ -1292,6 +1292,11 @@ alphanum-sort@^1.0.2:
   resolved "https://registry.npmjs.org/alphanum-sort/-/alphanum-sort-1.0.2.tgz"
   integrity sha1-l6ERlkmyEa0zaR2fn0hqjsn74KM=
 
+amdefine@>=0.0.4:
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/amdefine/-/amdefine-1.0.1.tgz#4a5282ac164729e93619bcfd3ad151f817ce91f5"
+  integrity sha1-SlKCrBZHKek2Gbz9OtFR+BfOkfU=
+
 ansi-html-community@^0.0.8:
   version "0.0.8"
   resolved "https://registry.npmjs.org/ansi-html-community/-/ansi-html-community-0.0.8.tgz"
@@ -1386,6 +1391,11 @@ async@^2.6.2:
   integrity sha512-zflvls11DCy+dQWzTW2dzuilv8Z5X/pjfmZOWba6TNIVDm+2UDaJmXSOXlasHKfNBs8oo3M0aT50fDEWfKZjXg==
   dependencies:
     lodash "^4.17.14"
+
+async@~0.2.6:
+  version "0.2.10"
+  resolved "https://registry.yarnpkg.com/async/-/async-0.2.10.tgz#b6bbe0b0674b9d719708ca38de8c237cb526c3d1"
+  integrity sha1-trvgsGdLnXGXCMo43owjfLUmw9E=
 
 atob@^2.1.2:
   version "2.1.2"
@@ -2193,6 +2203,14 @@ chalk@^4.0.0:
   optionalDependencies:
     fsevents "~2.3.2"
 
+chokidar@~0.8.0:
+  version "0.8.4"
+  resolved "https://registry.yarnpkg.com/chokidar/-/chokidar-0.8.4.tgz#3b2b5066817086534ba81a092bdcf4be25b8bee0"
+  integrity sha1-OytQZoFwhlNLqBoJK9z0viW4vuA=
+  optionalDependencies:
+    fsevents pipobscure/fsevents#7dcdf9fa3f8956610fd6f69f72c67bace2de7138
+    recursive-readdir "0.0.2"
+
 chrome-trace-event@^1.0.2:
   version "1.0.3"
   resolved "https://registry.npmjs.org/chrome-trace-event/-/chrome-trace-event-1.0.3.tgz"
@@ -2709,6 +2727,13 @@ domutils@^2.5.2, domutils@^2.6.0:
     domelementtype "^2.2.0"
     domhandler "^4.2.0"
 
+easyioc@~0.1.10:
+  version "0.1.13"
+  resolved "https://registry.yarnpkg.com/easyioc/-/easyioc-0.1.13.tgz#a3eebbc4dcb26679aed1723a99f97c54e0b026ed"
+  integrity sha1-o+67xNyyZnmu0XI6mfl8VOCwJu0=
+  dependencies:
+    lodash-node "~2.4.0"
+
 ee-first@1.1.1:
   version "1.1.1"
   resolved "https://registry.npmjs.org/ee-first/-/ee-first-1.1.1.tgz"
@@ -2738,6 +2763,18 @@ encodeurl@~1.0.2:
   version "1.0.2"
   resolved "https://registry.npmjs.org/encodeurl/-/encodeurl-1.0.2.tgz"
   integrity sha1-rT/0yG7C0CkyL1oCw6mmBslbP1k=
+
+encore@^0.0.30-beta:
+  version "0.0.30-beta"
+  resolved "https://registry.yarnpkg.com/encore/-/encore-0.0.30-beta.tgz#ce1a924bec400051fca893fe3610c8c87c99657a"
+  integrity sha1-zhqSS+xAAFH8qJP+NhDIyHyZZXo=
+  dependencies:
+    chokidar "~0.8.0"
+    easyioc "~0.1.10"
+    filefetcher "0.0.1"
+    handlebars "~1.2.0"
+    lodash-node "~2.4.0"
+    runway "~3.15.47-beta"
 
 enhanced-resolve@^5.8.3:
   version "5.8.3"
@@ -2965,6 +3002,11 @@ faye-websocket@^0.11.3:
   dependencies:
     websocket-driver ">=0.5.1"
 
+filefetcher@0.0.1:
+  version "0.0.1"
+  resolved "https://registry.yarnpkg.com/filefetcher/-/filefetcher-0.0.1.tgz#e1b1d0501ac80b4b8448b8de699e78670c5794a5"
+  integrity sha1-4bHQUBrIC0uESLjeaZ54ZwxXlKU=
+
 fill-range@^7.0.1:
   version "7.0.1"
   resolved "https://registry.npmjs.org/fill-range/-/fill-range-7.0.1.tgz"
@@ -3033,6 +3075,12 @@ fs.realpath@^1.0.0:
   version "1.0.0"
   resolved "https://registry.npmjs.org/fs.realpath/-/fs.realpath-1.0.0.tgz"
   integrity sha1-FQStJSMVjKpA20onh8sBQRmU6k8=
+
+fsevents@pipobscure/fsevents#7dcdf9fa3f8956610fd6f69f72c67bace2de7138:
+  version "0.2.1"
+  resolved "https://codeload.github.com/pipobscure/fsevents/tar.gz/7dcdf9fa3f8956610fd6f69f72c67bace2de7138"
+  dependencies:
+    nan "~0.8.0"
 
 fsevents@~2.3.2:
   version "2.3.2"
@@ -3134,6 +3182,15 @@ handle-thing@^2.0.0:
   version "2.0.1"
   resolved "https://registry.npmjs.org/handle-thing/-/handle-thing-2.0.1.tgz"
   integrity sha512-9Qn4yBxelxoh2Ow62nP+Ka/kMnOXRi8BXnRaUwezLNhqelnN49xKz4F/dPP8OYLxLxq6JDtZb2i9XznUQbNPTg==
+
+handlebars@~1.2.0:
+  version "1.2.1"
+  resolved "https://registry.yarnpkg.com/handlebars/-/handlebars-1.2.1.tgz#0a9016379064f8957779bdc2812869120aba9d98"
+  integrity sha1-CpAWN5Bk+JV3eb3CgShpEgq6nZg=
+  dependencies:
+    optimist "~0.3"
+  optionalDependencies:
+    uglify-js "~2.3"
 
 has-ansi@^2.0.0:
   version "2.0.0"
@@ -3631,6 +3688,11 @@ locate-path@^5.0.0:
   dependencies:
     p-locate "^4.1.0"
 
+lodash-node@~2.4.0, lodash-node@~2.4.1:
+  version "2.4.1"
+  resolved "https://registry.yarnpkg.com/lodash-node/-/lodash-node-2.4.1.tgz#ea82f7b100c733d1a42af76801e506105e2a80ec"
+  integrity sha1-6oL3sQDHM9GkKvdoAeUGEF4qgOw=
+
 lodash.debounce@^4.0.8:
   version "4.0.8"
   resolved "https://registry.npmjs.org/lodash.debounce/-/lodash.debounce-4.0.8.tgz"
@@ -3820,6 +3882,11 @@ multicast-dns@^6.0.1:
     dns-packet "^1.3.1"
     thunky "^1.0.2"
 
+nan@~0.8.0:
+  version "0.8.0"
+  resolved "https://registry.yarnpkg.com/nan/-/nan-0.8.0.tgz#022a8fa5e9fe8420964ac1fb3dc94e17f449f5fd"
+  integrity sha1-AiqPpen+hCCWSsH7PclOF/RJ9f0=
+
 nanocolors@^0.1.12:
   version "0.1.12"
   resolved "https://registry.npmjs.org/nanocolors/-/nanocolors-0.1.12.tgz"
@@ -3958,6 +4025,13 @@ open@^8.0.9:
     define-lazy-prop "^2.0.0"
     is-docker "^2.1.1"
     is-wsl "^2.2.0"
+
+optimist@~0.3, optimist@~0.3.5:
+  version "0.3.7"
+  resolved "https://registry.yarnpkg.com/optimist/-/optimist-0.3.7.tgz#c90941ad59e4273328923074d2cf2e7cbc6ec0d9"
+  integrity sha1-yQlBrVnkJzMokjB00s8ufLxuwNk=
+  dependencies:
+    wordwrap "~0.0.2"
 
 p-event@^4.2.0:
   version "4.2.0"
@@ -4535,6 +4609,11 @@ rechoir@^0.7.0:
   dependencies:
     resolve "^1.9.0"
 
+recursive-readdir@0.0.2:
+  version "0.0.2"
+  resolved "https://registry.yarnpkg.com/recursive-readdir/-/recursive-readdir-0.0.2.tgz#0bc47dc4838e646dccfba0507b5e57ffbff35f7c"
+  integrity sha1-C8R9xIOOZG3M+6BQe15X/7/zX3w=
+
 regenerate-unicode-properties@^9.0.0:
   version "9.0.0"
   resolved "https://registry.npmjs.org/regenerate-unicode-properties/-/regenerate-unicode-properties-9.0.0.tgz"
@@ -4731,6 +4810,13 @@ run-parallel@^1.1.9:
   integrity sha512-5l4VyZR86LZ/lDxZTR6jqL8AFE2S0IFLMP26AbjsLVADxHdhB/c0GUsH+y39UfCi3dzz8OlQuPmnaJOMoDHQBA==
   dependencies:
     queue-microtask "^1.2.2"
+
+runway@~3.15.47-beta:
+  version "3.15.47-beta"
+  resolved "https://registry.yarnpkg.com/runway/-/runway-3.15.47-beta.tgz#425041292ab01477fa33a0b28cf6ab96bd9357dc"
+  integrity sha1-QlBBKSqwFHf6M6CyjParlr2TV9w=
+  dependencies:
+    lodash-node "~2.4.1"
 
 safe-buffer@5.1.2, safe-buffer@~5.1.0, safe-buffer@~5.1.1:
   version "5.1.2"
@@ -4966,6 +5052,13 @@ source-map@^0.7.3, source-map@~0.7.2:
   version "0.7.3"
   resolved "https://registry.npmjs.org/source-map/-/source-map-0.7.3.tgz"
   integrity sha512-CkCj6giN3S+n9qrYiBTX5gystlENnRW5jZeNLHpe6aue+SrHcG5VYwujhW9s4dY31mEGsxBDrHR6oI69fTXsaQ==
+
+source-map@~0.1.7:
+  version "0.1.43"
+  resolved "https://registry.yarnpkg.com/source-map/-/source-map-0.1.43.tgz#c24bc146ca517c1471f5dacbe2571b2b7f9e3346"
+  integrity sha1-wkvBRspRfBRx9drL4lcbK3+eM0Y=
+  dependencies:
+    amdefine ">=0.0.4"
 
 spdy-transport@^3.0.0:
   version "3.0.0"
@@ -5206,6 +5299,15 @@ type@^2.5.0:
   version "2.5.0"
   resolved "https://registry.npmjs.org/type/-/type-2.5.0.tgz"
   integrity sha512-180WMDQaIMm3+7hGXWf12GtdniDEy7nYcyFMKJn/eZz/6tSLXrUN9V0wKSbMjej0I1WHWbpREDEKHtqPQa9NNw==
+
+uglify-js@~2.3:
+  version "2.3.6"
+  resolved "https://registry.yarnpkg.com/uglify-js/-/uglify-js-2.3.6.tgz#fa0984770b428b7a9b2a8058f46355d14fef211a"
+  integrity sha1-+gmEdwtCi3qbKoBY9GNV0U/vIRo=
+  dependencies:
+    async "~0.2.6"
+    optimist "~0.3.5"
+    source-map "~0.1.7"
 
 unicode-canonical-property-names-ecmascript@^2.0.0:
   version "2.0.0"
@@ -5523,6 +5625,11 @@ wildcard@^2.0.0:
   version "2.0.0"
   resolved "https://registry.npmjs.org/wildcard/-/wildcard-2.0.0.tgz"
   integrity sha512-JcKqAHLPxcdb9KM49dufGXn2x3ssnfjbcaQdLlfZsL9rH9wgDQjUtDxbo8NE0F6SFvydeu1VhZe7hZuHsB2/pw==
+
+wordwrap@~0.0.2:
+  version "0.0.3"
+  resolved "https://registry.yarnpkg.com/wordwrap/-/wordwrap-0.0.3.tgz#a3d5da6cd5c0bc0008d37234bbaf1bed63059107"
+  integrity sha1-o9XabNXAvAAI03I0u68b7WMFkQc=
 
 wrappy@1:
   version "1.0.2"
