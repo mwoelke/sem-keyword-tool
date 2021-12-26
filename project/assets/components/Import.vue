@@ -31,7 +31,6 @@
 
 <script>
 import { VueCsvImport } from "vue-csv-import";
-import helper from "../lib/helper";
 import api from "../lib/api";
 
 export default {

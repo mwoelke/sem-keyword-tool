@@ -4,8 +4,11 @@ namespace App\Entity;
 
 use ApiPlatform\Core\Annotation\ApiFilter;
 use ApiPlatform\Core\Annotation\ApiResource;
+use ApiPlatform\Core\Annotation\ApiSubresource;
 use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
 use App\Repository\DomainRepository;
+use DateTime;
+use DateTimeImmutable;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
@@ -101,6 +104,26 @@ class Domain
     public function getAmountKeywords(): int
     {
         return $this->getKeywords()->count();
+    }
+
+    /**
+     * Get first unsorted keyword which is not locked.
+     * Api resource.
+     *
+     * @return Keyword
+     */
+    #[Groups(['first_unsorted:read'])]
+    public function getFirstUnsortedKeyword(): Keyword
+    {
+        return $this->getKeywords()->filter(function(Keyword $keyword) {
+            $locked = false;
+            if($keyword->getLockedAt() !== null) {
+                //set locked to false if lock is over an hour old
+                $now = (new DateTimeImmutable())->getTimestamp();
+                $locked = ($now - $keyword->getLockedAt()->getTimestamp()) > 3600;
+            }
+            return $keyword->getAmountKeywordGroups() === 0 && !$locked;
+        })->first();
     }
 
     public function addKeyword(Keyword $keyword): self

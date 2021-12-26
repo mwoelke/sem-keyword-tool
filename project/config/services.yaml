@@ -21,5 +21,9 @@ services:
             - '../src/Kernel.php'
             - '../src/Tests/'
 
+    App\Serializer\DomainContextBuilder:
+        decorates: 'api_platform.serializer.context_builder'
+        arguments: [ '@App\Serializer\DomainContextBuilder.inner' ]
+
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones

@@ -30,16 +30,15 @@
           </ul>
           <div class="row p-2">
             <div class="col-6">
-              <router-link
-                tag="button"
+              <button
                 class="btn btn-primary"
                 :class="[
                   store.data.state.activeDomain.amountUnsortedKeywords == 0
                     ? 'disabled'
                     : '',
                 ]"
-                to="/test"
-                >Sort keywords</router-link
+                @click="sortFirstKeyword"
+                >Sort keywords</button
               >
             </div>
             <div class="col-6">
@@ -103,8 +102,14 @@
                       {{ keywordGroup.name }}
                     </router-link>
                   </div>
-                  <div class="col-1 pointer" @click="downloadKeywordGroup(keywordGroup.id)">
-                    <i class="bi bi-download" title="Download keyword group"></i>
+                  <div
+                    class="col-1 pointer"
+                    @click="downloadKeywordGroup(keywordGroup.id)"
+                  >
+                    <i
+                      class="bi bi-download"
+                      title="Download keyword group"
+                    ></i>
                   </div>
                 </div>
               </li>
@@ -118,6 +123,7 @@
 
 <script>
 import helper from "../lib/helper";
+import api from "../lib/api";
 
 export default {
   name: "DomainDashboard",
@@ -129,9 +135,13 @@ export default {
     addNewKeywordGroup: function () {
       helper.addNewKeywordGroup(this.store.data);
     },
-    downloadKeywordGroup: function(id) {
+    downloadKeywordGroup: function (id) {
       console.log(id);
-    }
+    },
+    sortFirstKeyword: async function () {
+      let keywordId = await api.apiGetFirstUnsortedKeywordForDomain(this.store.data.state.activeDomain.id);
+      this.$router.push("keyword/" + keywordId);
+    },
   },
 };
 </script>

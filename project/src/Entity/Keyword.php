@@ -4,8 +4,10 @@ namespace App\Entity;
 
 use ApiPlatform\Core\Annotation\ApiFilter;
 use ApiPlatform\Core\Annotation\ApiResource;
+use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\NumericFilter;
 use App\Repository\KeywordRepository;
 use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
+use DateTimeImmutable;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -16,7 +18,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
 #[ORM\Entity(repositoryClass: KeywordRepository::class)]
 #[
     ApiResource(
-        itemOperations: ['get', 'delete'],
+        itemOperations: ['get', 'delete', 'patch'],
         collectionOperations: ['get', 'post'],
         normalizationContext: ['groups' => ['keywords:read']],
         denormalizationContext: ['groups' => ['keywords:write']],
@@ -29,13 +31,13 @@ class Keyword
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column(type: 'integer')]
-    #[Groups(['keywords:read'])]
+    #[Groups(['keywords:read', 'first_unsorted:read'])]
     private $id;
 
     #[ORM\Column(type: 'string', length: 500)]
     #[Assert\NotBlank()]
     #[Assert\Length(min: 1, max: 500)] //if anyone puts more than 500 chars in a search engine I feel sorry for them
-    #[Groups(['keywords:write', 'keywords:read'])]
+    #[Groups(['keywords:write', 'keywords:read', 'first_unsorted:read'])]
     private $name;
 
     #[ORM\ManyToOne(targetEntity: Domain::class, inversedBy: 'keywords')]
@@ -50,9 +52,20 @@ class Keyword
     #[ApiFilter(SearchFilter::class, properties: ['keyword_group.id' => 'exact'])] //allow filtering by keywordGroup id
     private $keywordGroups;
 
+    /**
+     * DateTime the keyword has been locked for editing by a user
+     * Note: Ignored if older than 1 hour
+     *
+     * @var DateTimeImmutable
+     */
+    #[ORM\Column(type: 'datetime_immutable', nullable: true)]
+    #[Groups(['keywords:write', 'keywords:read'])]
+    private $lockedAt;
+
     public function __construct()
     {
         $this->keywordGroups = new ArrayCollection();
+        $this->lockedAt = null;
     }
 
     public function getId(): ?int
@@ -118,5 +131,17 @@ class Keyword
     public function getAmountKeywordGroups(): int
     {
         return $this->keywordGroups->count();
+    }
+
+    public function getLockedAt(): ?\DateTimeImmutable
+    {
+        return $this->lockedAt;
+    }
+
+    public function setLockedAt(?\DateTimeImmutable $lockedAt): self
+    {
+        $this->lockedAt = $lockedAt;
+
+        return $this;
     }
 }

@@ -7,6 +7,7 @@ import MainHeader from './components/MainHeader.vue';
 import Store from './lib/store';
 import Import from './components/Import';
 import KeywordList from './components/KeywordList'
+import EditKeyword from './components/EditKeyword'
 //import {VueCsvImport} from 'vue-csv-import';
 
 Vue.use(VueRouter)
@@ -38,6 +39,11 @@ const routes = [
     {
         path: '/keywords/:keyword_group?',
         component: KeywordList,
+        props: {store: Store}
+    },
+    {
+        path: '/keyword/:keyword',
+        component: EditKeyword,
         props: {store: Store}
     }
 ];

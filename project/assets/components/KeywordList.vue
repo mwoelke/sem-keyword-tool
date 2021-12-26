@@ -5,7 +5,7 @@
         <thead>
           <tr>
             <th>Keyword</th>
-            <th>In x keyword groups</th>
+            <th>Amount assigned keyword groups</th>
           </tr>
         </thead>
         <tbody>
