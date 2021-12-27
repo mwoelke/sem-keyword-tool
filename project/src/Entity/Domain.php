@@ -87,11 +87,29 @@ class Domain
     #[Groups(['domains:read'])]
     public function getAmountUnsortedKeywords(): int
     {
-        $keywords = $this->getKeywords();
-        $keywords->filter(function(Keyword $keyword) {
-            return $keyword->getKeywordGroups()->count() === 0;
-        });
-        return $keywords->count();
+        return $this->getKeywords()->filter(function(Keyword $keyword) {
+            return $keyword->getAmountKeywordGroups() === 0;
+        })->count();
+    }
+
+    /**
+     * Get amount of locked keywords.
+     * Api resource.
+     *
+     * @return integer
+     */
+    #[Groups(['domains:read'])]
+    public function getAmountLockedKeywords(): int
+    {
+        return $this->getKeywords()->filter(function(Keyword $keyword) {
+            $locked = false;
+            if($keyword->getLockedAt() !== null) {
+                //set locked to false if lock is over an hour old
+                $now = (new DateTimeImmutable('now', new \DateTimeZone('UTC')))->getTimestamp();
+                $locked = ($now - $keyword->getLockedAt()->getTimestamp()) < 3600;
+            }
+            return $locked;
+        })->count();
     }
 
     /**
@@ -119,8 +137,8 @@ class Domain
             $locked = false;
             if($keyword->getLockedAt() !== null) {
                 //set locked to false if lock is over an hour old
-                $now = (new DateTimeImmutable())->getTimestamp();
-                $locked = ($now - $keyword->getLockedAt()->getTimestamp()) > 3600;
+                $now = (new DateTimeImmutable('now', new \DateTimeZone('UTC')))->getTimestamp();
+                $locked = ($now - $keyword->getLockedAt()->getTimestamp()) < 3600;
             }
             return $keyword->getAmountKeywordGroups() === 0 && !$locked;
         })->first();

@@ -18,7 +18,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
 #[ORM\Entity(repositoryClass: KeywordRepository::class)]
 #[
     ApiResource(
-        itemOperations: ['get', 'delete', 'patch'],
+        itemOperations: ['get', 'delete', 'put'],
         collectionOperations: ['get', 'post'],
         normalizationContext: ['groups' => ['keywords:read']],
         denormalizationContext: ['groups' => ['keywords:write']],

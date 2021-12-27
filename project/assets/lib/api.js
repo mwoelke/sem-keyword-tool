@@ -83,6 +83,6 @@ export default {
      * @returns 
      */
     apiLockKeyword(keywordId) {
-        return axios.patch("/api/keywords/" + keywordId, {lockedAt: Date.now()})
+        return axios.put("/api/keywords/" + keywordId, {lockedAt: new Date()})
     }
 };

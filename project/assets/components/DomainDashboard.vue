@@ -23,6 +23,9 @@
             >
               Unsorted Keywords:
               {{ store.data.state.activeDomain.amountUnsortedKeywords }}
+              <span v-if="store.data.state.activeDomain.amountLockedKeywords > 0">
+                ({{store.data.state.activeDomain.amountLockedKeywords}} locked)
+                </span>
             </li>
             <li class="list-group-item">
               Keywords: {{ store.data.state.activeDomain.amountKeywords }}
@@ -33,7 +36,7 @@
               <button
                 class="btn btn-primary"
                 :class="[
-                  store.data.state.activeDomain.amountUnsortedKeywords == 0
+                  store.data.state.activeDomain.amountUnsortedKeywords == 0 || store.data.state.activeDomain.amountUnsortedKeywords == store.data.state.activeDomain.amountLockedKeywords
                     ? 'disabled'
                     : '',
                 ]"
