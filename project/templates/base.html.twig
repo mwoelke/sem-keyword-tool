@@ -1,52 +1,54 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <meta charset="UTF-8">
-        <meta name="theme-color" content="white" />
-        <meta name="apple-mobile-web-app-capable" content="yes">
-        <meta name="apple-mobile-web-app-status-bar-style" content="black">
-        <meta name="msapplication-TileColor" content="#FFFFFF">
-        <meta name="theme-color" content="white" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"> 
-        <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
-        <meta http-equiv="Pragma" content="no-cache" />
-        <meta http-equiv="Expires" content="0" />
 
-        <title>{% block title %}SEM Keyword Tool{% endblock %}</title>
+<head>
+    <meta charset="UTF-8">
+    <meta name="theme-color" content="white" />
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="msapplication-TileColor" content="#FFFFFF">
+    <meta name="theme-color" content="white" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+    <meta http-equiv="Pragma" content="no-cache" />
+    <meta http-equiv="Expires" content="0" />
 
-        {% block stylesheets %}
-            {{ encore_entry_link_tags('app') }}
-        {% endblock %}
+    <title>{% block title %}SEM Keyword Tool{% endblock %}</title>
 
-        {% block javascripts %}
-            {{ encore_entry_script_tags('app') }}
-        {% endblock %}
+    {% block stylesheets %}
+    {{ encore_entry_link_tags('app') }}
+    {% endblock %}
 
-    </head>
+    {% block javascripts %}
+    {{ encore_entry_script_tags('app') }}
+    {% endblock %}
 
-    <body>
-        {# Warning if JavaScript is not working #}
-        <div id="error-js" class="overall bg-dark">
-            <div class="text-center text-light">
-                <h1><i class="bi bi-exclamation-triangle"></i>&nbsp;Warning</h1>
-                <p>It seems like your browser doesn't support JavaScript. Please enable JavaScript to use this app as intended.</p>
-            </div>
+</head>
+
+<body>
+    {# Warning if JavaScript is not working #}
+    <div id="error-js" class="overall bg-dark">
+        <div class="text-center text-light">
+            <h1><i class="bi bi-exclamation-triangle"></i>&nbsp;Warning</h1>
+            <p>It seems like your browser doesn't support JavaScript. Please enable JavaScript to use this app as
+                intended.</p>
         </div>
-        <script type="text/javascript">
-            let errorJs = document.getElementById('error-js');
-            errorJs.remove();
-        </script>
+    </div>
+    <script type="text/javascript">
+        let errorJs = document.getElementById('error-js');
+        errorJs.remove();
+    </script>
 
 
-        
-        {# Default container #}
-        <div id="main-container" class="container-fluid h-100 w-100">
+
+    {# Default container #}
+    <div id="main-container" class="container-fluid h-100 w-100">
         {% block body %}{% endblock %}
-        </div>
+    </div>
 
-        {# JavaScript container #}
-        {% block scripts %}{% endblock %}
-        
-    </body>
+    {# JavaScript container #}
+    {% block scripts %}{% endblock %}
+
+</body>
 
 </html>
