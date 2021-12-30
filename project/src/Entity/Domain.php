@@ -47,10 +47,14 @@ class Domain
     #[Groups(['domains:read'])]
     private $keywordGroups;
 
+    #[ORM\OneToMany(mappedBy: 'domain', targetEntity: AssignmentRule::class)]
+    private $assignmentRules;
+
     public function __construct()
     {
         $this->keywords = new ArrayCollection();
         $this->keywordGroups = new ArrayCollection();
+        $this->assignmentRules = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -191,6 +195,36 @@ class Domain
             // set the owning side to null (unless already changed)
             if ($keywordGroup->getDomain() === $this) {
                 $keywordGroup->setDomain(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|AssignmentRule[]
+     */
+    public function getAssignmentRules(): Collection
+    {
+        return $this->assignmentRules;
+    }
+
+    public function addAssignmentRule(AssignmentRule $assignmentRule): self
+    {
+        if (!$this->assignmentRules->contains($assignmentRule)) {
+            $this->assignmentRules[] = $assignmentRule;
+            $assignmentRule->setDomain($this);
+        }
+
+        return $this;
+    }
+
+    public function removeAssignmentRule(AssignmentRule $assignmentRule): self
+    {
+        if ($this->assignmentRules->removeElement($assignmentRule)) {
+            // set the owning side to null (unless already changed)
+            if ($assignmentRule->getDomain() === $this) {
+                $assignmentRule->setDomain(null);
             }
         }
 
