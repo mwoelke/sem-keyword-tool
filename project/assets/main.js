@@ -8,6 +8,7 @@ import Store from './lib/store';
 import Import from './components/Import';
 import KeywordList from './components/KeywordList'
 import EditKeyword from './components/EditKeyword'
+import AssignmentRules from './components/AssignmentRules.vue'
 //import {VueCsvImport} from 'vue-csv-import';
 
 Vue.use(VueRouter)
@@ -45,7 +46,12 @@ const routes = [
         path: '/keyword/:keyword',
         component: EditKeyword,
         props: {store: Store}
-    }
+    },
+    {
+        path: '/rules',
+        component: AssignmentRules,
+        props: {store: Store}
+    },
 ];
 
 const router = new VueRouter({

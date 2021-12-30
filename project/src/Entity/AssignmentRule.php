@@ -7,6 +7,7 @@ use App\Repository\AssignmentRuleRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
+use App\Validator as CustomAssert;
 
 #[ORM\Entity(repositoryClass: AssignmentRuleRepository::class)]
 #[
@@ -26,16 +27,11 @@ class AssignmentRule
     #[Groups(['assignmentRules:read'])]
     private $id;
 
-    #[ORM\ManyToOne(targetEntity: Domain::class, inversedBy: 'assignmentRules')]
-    #[ORM\JoinColumn(nullable: false)]
-    #[Groups(['assignmentRules:read', 'assignmentRules:write'])]
-    #[Assert\NotBlank()]
-    private $domain;
-
     #[ORM\Column(type: 'string', length: 500)]
     #[Groups(['assignmentRules:read', 'assignmentRules:write'])]
     #[Assert\NotBlank()]
     #[Assert\Length(min: 1, max: 500)]
+    #[CustomAssert\ValidRegex()]
     private $regexPattern;
 
     #[ORM\ManyToOne(targetEntity: KeywordGroup::class, inversedBy: 'assignmentRules')]
@@ -47,18 +43,6 @@ class AssignmentRule
     public function getId(): ?int
     {
         return $this->id;
-    }
-
-    public function getDomain(): ?Domain
-    {
-        return $this->domain;
-    }
-
-    public function setDomain(?Domain $domain): self
-    {
-        $this->domain = $domain;
-
-        return $this;
     }
 
     public function getRegexPattern(): ?string

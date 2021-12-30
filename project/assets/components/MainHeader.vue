@@ -41,6 +41,14 @@
             >Keywords</router-link
           >
         </li>
+        <li class="nav-item">
+          <router-link
+            class="nav-link"
+            :class="[$route.path == '/rules' ? 'active' : '']"
+            to="/rules"
+            >Rules</router-link
+          >
+        </li>
       </ul>
     </div>
     <ul class="navbar-nav ms-auto mb-2 mb-lg-0">

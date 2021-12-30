@@ -50,6 +50,7 @@ class KeywordGroup
     private $domain;
 
     #[ORM\OneToMany(mappedBy: 'keywordGroup', targetEntity: AssignmentRule::class)]
+    #[Groups(['keyword_groups:read','keyword_groups:write'])]
     private $assignmentRules;
 
     public function __construct()
