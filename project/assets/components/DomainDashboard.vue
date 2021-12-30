@@ -102,12 +102,12 @@
                       class="link-full"
                       :to="'/keywords/' + keywordGroup.id"
                     >
-                      {{ keywordGroup.name }}
+                      {{ keywordGroup.name }}:  {{keywordGroup.amountKeywords}}
                     </router-link>
                   </div>
                   <div
                     class="col-1 pointer"
-                    @click="downloadKeywordGroup(keywordGroup.id)"
+                    @click="downloadKeywordGroup(keywordGroup)"
                   >
                     <i
                       class="bi bi-download"
@@ -133,17 +133,23 @@ export default {
   props: ["store"],
   async mounted() {
     await this.store.data.loadKeywordGroups();
+    //reload state since it might be old
+    await this.store.data.loadDomains();
   },
   methods: {
     addNewKeywordGroup: function () {
       helper.addNewKeywordGroup(this.store.data);
     },
-    downloadKeywordGroup: function (id) {
-      console.log(id);
+    downloadKeywordGroup: function (keywordGroup) {
+      let date = new Date();
+      let formatedDate = date.getFullYear().toString() + date.getMonth().toString() + date.getDate().toString();
+      let name = formatedDate + '_' + keywordGroup.name.replace(' ','-') + '.csv';
+      console.log(keywordGroup);
+      api.apiDownloadFile(keywordGroup['@id'] + '.csv', name);
     },
     sortFirstKeyword: async function () {
       let keywordId = await api.apiGetFirstUnsortedKeywordForDomain(this.store.data.state.activeDomain.id);
-      this.$router.push("keyword/" + keywordId);
+      this.$router.push("/keyword/" + keywordId);
     },
   },
 };

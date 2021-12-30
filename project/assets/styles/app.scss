@@ -22,6 +22,13 @@
     }
 }
 
+.gap-between-5 {
+    margin-right: 5px;
+    &:last-child {
+        margin-right: 0px; 
+    }
+}
+
 .table-scroll {
     position: relative;
     height: 08%;

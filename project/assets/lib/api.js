@@ -42,8 +42,8 @@ export default {
      * @param {number} pageId 
      * @returns {Promise} Promise
      */
-    apiGetAllKeywordsForDomain(domain, pageId) {
-        return axios.get("/api/keywords?page=" + page + "&domain.id=" + pageId)
+    apiGetAllKeywordsForDomain(domainId, pageId) {
+        return axios.get("/api/keywords?page=" + pageId + "&domain.id=" + domainId)
             .then((response) => response.data["hydra:member"]);
     },
 
@@ -54,7 +54,7 @@ export default {
      * @returns {Promise} Promise
      */
     apiGetAllKeywordsForKeywordGroup(groupId, page) {
-        return axios.get("/api/keywords?page=" + page + "&keyword_group.id= " + groupId)
+        return axios.get("/api/keywords?page=" + page + "&keywordGroups.id=" + groupId)
             .then((response) => response.data["hydra:member"]);
     },
 
@@ -84,5 +84,32 @@ export default {
      */
     apiLockKeyword(keywordId) {
         return axios.put("/api/keywords/" + keywordId, {lockedAt: new Date()})
+    },
+
+    /**
+     * Update given Keyword 
+     * @param {number} keywordId
+     * @param {object} update
+     * @returns 
+     */
+    apiPutKeyword(keywordId, update) {
+        return axios.put("/api/keywords/" + keywordId, update);
+    },
+
+    /**
+     * Shamelessly ripped from https://stackoverflow.com/questions/41938718/how-to-download-files-using-axios
+     * @param {string} url 
+     * @param {string} filename 
+     * @returns 
+     */
+    apiDownloadFile(url, filename) {
+        return axios({url, method: 'GET', responseType: 'blob'}).then(response => {
+            const url = window.URL.createObjectURL(new Blob([response.data]));
+            const link = document.createElement('a');
+            link.href = url;
+            link.setAttribute('download', filename); //or any other extension
+            document.body.appendChild(link);
+            link.click();
+        });
     }
 };

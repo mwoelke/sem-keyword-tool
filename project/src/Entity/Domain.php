@@ -106,7 +106,7 @@ class Domain
             if($keyword->getLockedAt() !== null) {
                 //set locked to false if lock is over an hour old
                 $now = (new DateTimeImmutable('now', new \DateTimeZone('UTC')))->getTimestamp();
-                $locked = ($now - $keyword->getLockedAt()->getTimestamp()) < 3600;
+                $locked = ($now - $keyword->getLockedAt()->getTimestamp()) < 60;
             }
             return $locked;
         })->count();
@@ -131,17 +131,18 @@ class Domain
      * @return Keyword
      */
     #[Groups(['first_unsorted:read'])]
-    public function getFirstUnsortedKeyword(): Keyword
+    public function getFirstUnsortedKeyword(): ?Keyword
     {
-        return $this->getKeywords()->filter(function(Keyword $keyword) {
+        $res = $this->getKeywords()->filter(function(Keyword $keyword) {
             $locked = false;
             if($keyword->getLockedAt() !== null) {
                 //set locked to false if lock is over an hour old
                 $now = (new DateTimeImmutable('now', new \DateTimeZone('UTC')))->getTimestamp();
-                $locked = ($now - $keyword->getLockedAt()->getTimestamp()) < 3600;
+                $locked = ($now - $keyword->getLockedAt()->getTimestamp()) < 60;
             }
             return $keyword->getAmountKeywordGroups() === 0 && !$locked;
         })->first();
+        return ($res === false) ? null : $res;
     }
 
     public function addKeyword(Keyword $keyword): self

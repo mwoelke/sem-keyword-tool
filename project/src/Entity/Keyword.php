@@ -49,7 +49,7 @@ class Keyword
     #[ORM\ManyToMany(targetEntity: KeywordGroup::class, inversedBy: 'keywords')]
     #[ORM\JoinTable(name: "keywords_keywordgroups")]
     #[Groups(['keywords:write', 'keywords:read'])]
-    #[ApiFilter(SearchFilter::class, properties: ['keyword_group.id' => 'exact'])] //allow filtering by keywordGroup id
+    #[ApiFilter(SearchFilter::class, properties: ['keywordGroups.id' => 'exact'])] //allow filtering by keywordGroup id
     private $keywordGroups;
 
     /**
