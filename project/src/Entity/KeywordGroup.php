@@ -49,9 +49,13 @@ class KeywordGroup
     #[ApiFilter(SearchFilter::class, properties: ['domain.id' => 'exact'])] //allow filtering by domain id
     private $domain;
 
+    #[ORM\OneToMany(mappedBy: 'keywordGroup', targetEntity: AssignmentRule::class)]
+    private $assignmentRules;
+
     public function __construct()
     {
         $this->keywords = new ArrayCollection();
+        $this->assignmentRules = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -118,6 +122,36 @@ class KeywordGroup
     public function setDomain(?Domain $domain): self
     {
         $this->domain = $domain;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|AssignmentRule[]
+     */
+    public function getAssignmentRules(): Collection
+    {
+        return $this->assignmentRules;
+    }
+
+    public function addAssignmentRule(AssignmentRule $assignmentRule): self
+    {
+        if (!$this->assignmentRules->contains($assignmentRule)) {
+            $this->assignmentRules[] = $assignmentRule;
+            $assignmentRule->setKeywordGroup($this);
+        }
+
+        return $this;
+    }
+
+    public function removeAssignmentRule(AssignmentRule $assignmentRule): self
+    {
+        if ($this->assignmentRules->removeElement($assignmentRule)) {
+            // set the owning side to null (unless already changed)
+            if ($assignmentRule->getKeywordGroup() === $this) {
+                $assignmentRule->setKeywordGroup(null);
+            }
+        }
 
         return $this;
     }
