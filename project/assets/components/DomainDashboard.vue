@@ -23,9 +23,14 @@
             >
               Unsorted Keywords:
               {{ store.data.state.activeDomain.amountUnsortedKeywords }}
-              <span v-if="store.data.state.activeDomain.amountLockedKeywords > 0">
-                ({{store.data.state.activeDomain.amountLockedKeywords}} locked)
-                </span>
+              <span
+                v-if="store.data.state.activeDomain.amountLockedKeywords > 0"
+              >
+                ({{
+                  store.data.state.activeDomain.amountLockedKeywords
+                }}
+                locked)
+              </span>
             </li>
             <li class="list-group-item">
               Keywords: {{ store.data.state.activeDomain.amountKeywords }}
@@ -36,13 +41,16 @@
               <button
                 class="btn btn-primary"
                 :class="[
-                  store.data.state.activeDomain.amountUnsortedKeywords == 0 || store.data.state.activeDomain.amountUnsortedKeywords == store.data.state.activeDomain.amountLockedKeywords
+                  store.data.state.activeDomain.amountUnsortedKeywords == 0 ||
+                  store.data.state.activeDomain.amountUnsortedKeywords ==
+                    store.data.state.activeDomain.amountLockedKeywords
                     ? 'disabled'
                     : '',
                 ]"
                 @click="sortFirstKeyword"
-                >Sort keywords</button
               >
+                Sort keywords
+              </button>
             </div>
             <div class="col-6">
               <router-link
@@ -102,7 +110,7 @@
                       class="link-full"
                       :to="'/keywords/' + keywordGroup.id"
                     >
-                      {{ keywordGroup.name }}:  {{keywordGroup.amountKeywords}}
+                      {{ keywordGroup.name }}: {{ keywordGroup.amountKeywords }}
                     </router-link>
                   </div>
                   <div
@@ -125,7 +133,6 @@
 </template>
 
 <script>
-import helper from "../lib/helper";
 import api from "../lib/api";
 
 export default {
@@ -137,18 +144,48 @@ export default {
     await this.store.data.loadDomains();
   },
   methods: {
+    /**
+     * Show dialog to enter new keyword group and post to API
+     */
     addNewKeywordGroup: function () {
-      helper.addNewKeywordGroup(this.store.data);
+      //ask for group name
+      let keywordGroupName = prompt("Enter name");
+
+      //cancel event
+      if (keywordGroupName === null) {
+        return;
+      }
+
+      //check if valid length
+      if (keywordGroupName.length >= 1 && keywordGroupName.length <= 255) {
+        //create object for post
+        let keywordGroup = {
+          name: keywordGroupName,
+          domain: dataStore.state.activeDomain["@id"],
+        };
+        //post object
+        api
+          .apiPostKeywordGroup(keywordGroup)
+          .then(() => this.store.data.loadKeywordGroups());
+      } else {
+        alert("Invalid length");
+      }
     },
     downloadKeywordGroup: function (keywordGroup) {
       let date = new Date();
-      let formatedDate = date.getFullYear().toString() + date.getMonth().toString() + date.getDate().toString();
-      let name = formatedDate + '_' + keywordGroup.name.replace(' ','-') + '.csv';
+      let formatedDate =
+        date.getFullYear().toString() +
+        date.getMonth().toString() +
+        date.getDate().toString();
+      let name =
+        formatedDate + "_" + keywordGroup.name.replace(" ", "-") + ".csv";
       console.log(keywordGroup);
-      api.apiDownloadFile(keywordGroup['@id'] + '.csv', name);
+      api.apiDownloadFile(keywordGroup["@id"] + ".csv", name);
     },
     sortFirstKeyword: async function () {
-      let keywordId = await api.apiGetFirstUnsortedKeywordForDomain(this.store.data.state.activeDomain.id);
+      let keywordId = await api.apiGetFirstUnsortedKeywordForDomain(
+        this.store.data.state.activeDomain.id
+      );
       this.$router.push("/keyword/" + keywordId);
     },
   },

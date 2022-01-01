@@ -24,11 +24,11 @@ class AssignmentRule
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column(type: 'integer')]
-    #[Groups(['assignmentRules:read'])]
+    #[Groups(['assignmentRules:read', 'keyword_groups:read'])]
     private $id;
 
     #[ORM\Column(type: 'string', length: 500)]
-    #[Groups(['assignmentRules:read', 'assignmentRules:write'])]
+    #[Groups(['assignmentRules:read', 'assignmentRules:write', 'keyword_groups:read'])]
     #[Assert\NotBlank()]
     #[Assert\Length(min: 1, max: 500)]
     #[CustomAssert\ValidRegex()]

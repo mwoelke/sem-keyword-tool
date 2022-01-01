@@ -42,6 +42,7 @@ export default {
             this.state.activeDomain = null;
         },
         async loadKeywordGroups() {
+            if (this.debug) console.log('loadKeywordGroups called');
             if (this.state.activeDomain === null) {
                 throw "activeDomain is not set, can't get keyword groups";
             }

@@ -13,12 +13,18 @@
         >
           <h2 class="accordion-header">
             <button
-              class="accordion-button collapsed"
+              class="accordion-button d-flex justify-content-between collapsed"
               type="button"
               data-bs-toggle="collapse"
               :data-bs-target="'#collapse' + keywordGroup.id"
             >
-              {{ keywordGroup.name }}
+              <span class="flex-grow-1">{{ keywordGroup.name }}</span>
+              <button
+                class="btn btn-secondary mx-4"
+                @click="addNewRule(keywordGroup)"
+              >
+                Add new
+              </button>
             </button>
           </h2>
           <div
@@ -26,16 +32,20 @@
             class="accordion-collapse collapse"
           >
             <div class="accordion-body">
-              <div class="row">
-                <div class="col-10">
-                  <div v-if="keywordGroup.assignmentRules.length > 0"></div>
-                  <div v-else>
-                    <span>No rule yet.</span>
-                  </div>
-                </div>
-                <div class="col-2 align-self-end">
-                  <button @click="addNewRule" class="btn btn-secondary float-end">Add new</button>
-                </div>
+              <div v-if="keywordGroup.assignmentRules.length > 0">
+                <ul class="list-group">
+                  <li
+                    v-for="rule in keywordGroup.assignmentRules"
+                    :key="rule['@id']"
+                    class="list-group-item d-flex justify-content-between"
+                  >
+                    <span class="flex-grow-1">{{ rule.regexPattern }}</span>
+                    <i @click="deleteRule(rule)" class="bi bi-trash-fill"></i>
+                  </li>
+                </ul>
+              </div>
+              <div v-else>
+                <span>No rule yet.</span>
               </div>
             </div>
           </div>
@@ -57,14 +67,52 @@ export default {
     };
   },
   async mounted() {
-    this.keywordGroups = await api.apiGetKeywordGroupsForDomain(
-      this.store.data.state.activeDomain.id
-    );
+    this.loadKeywordGroups();
   },
   methods: {
-      addNewRule: function() {
-          
+    /**
+     * Show dialog to enter new assignment rule and post to API
+     */
+    addNewRule: function (keywordGroup) {
+      let regexPattern = prompt("Enter new rule (any valid PHP regex)");
+
+      //cancel event
+      if (regexPattern === null) {
+        return;
       }
+
+      if (regexPattern.length >= 1 && regexPattern.length <= 500) {
+        //create object for post
+        let assignmentRule = {
+          regexPattern: regexPattern,
+          keywordGroup: keywordGroup["@id"],
+        };
+        //post object
+        api
+          .apiPostRule(assignmentRule)
+          .then(this.loadKeywordGroups())
+          .catch((error) => {
+            if (error.response) {
+              alert(
+                "Could not create rule. Invalid regex? (see console log for details)"
+              );
+              console.log(error);
+            }
+          });
+      } else {
+        alert("Invalid length");
+      }
+    },
+    deleteRule: function (rule) {
+      if (confirm("Are you sure you want to delete this rule?")) {
+        api.apiDeleteRule(rule.id).then(() => this.loadKeywordGroups());
+      }
+    },
+    loadKeywordGroups: async function () {
+      this.keywordGroups = await api.apiGetKeywordGroupsForDomain(
+        this.store.data.state.activeDomain.id
+      );
+    },
   },
 };
 </script>

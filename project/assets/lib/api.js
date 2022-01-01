@@ -12,7 +12,7 @@ export default {
 
     /**
      * Post new keyword group
-     * @param {String} keywordGroupName 
+     * @param {object} keywordGroup 
      * @returns {Promise} Promise
      */
     apiPostKeywordGroup(keywordGroup) {
@@ -111,5 +111,23 @@ export default {
             document.body.appendChild(link);
             link.click();
         });
+    },
+
+    /**
+     * Post new assignment rule
+     * @param {object} assignmentRule 
+     * @returns 
+     */
+    apiPostRule(assignmentRule) {
+        return axios.post("/api/assignment_rules", assignmentRule);
+    },
+
+    /**
+     * Delete assignment rule
+     * @param {number} assignmentRuleId 
+     * @returns 
+     */
+    apiDeleteRule(assignmentRuleId) {
+        return axios.delete("api/assignment_rules/" + assignmentRuleId);
     }
 };

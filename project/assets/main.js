@@ -1,4 +1,3 @@
-import './lib/helper.js';
 import Vue from 'vue';
 import VueRouter from 'vue-router';
 import ListDomains from './components/ListDomains.vue';
@@ -9,7 +8,6 @@ import Import from './components/Import';
 import KeywordList from './components/KeywordList'
 import EditKeyword from './components/EditKeyword'
 import AssignmentRules from './components/AssignmentRules.vue'
-//import {VueCsvImport} from 'vue-csv-import';
 
 Vue.use(VueRouter)
 
