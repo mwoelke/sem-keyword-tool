@@ -110,7 +110,11 @@
                       class="link-full"
                       :to="'/keywords/' + keywordGroup.id"
                     >
-                      {{ keywordGroup.name }}: {{ keywordGroup.amountKeywords }}
+                      <div class="d-flex justify-content-between">
+                        <span class="flex-grow-1">{{ keywordGroup.name }}</span>
+                        <span class="badge bg-secondary">{{ keywordGroup.amountKeywords }} keywords</span>
+                      </div>
+                      
                     </router-link>
                   </div>
                   <div
@@ -161,7 +165,7 @@ export default {
         //create object for post
         let keywordGroup = {
           name: keywordGroupName,
-          domain: dataStore.state.activeDomain["@id"],
+          domain: this.store.data.state.activeDomain["@id"],
         };
         //post object
         api
@@ -179,7 +183,6 @@ export default {
         date.getDate().toString();
       let name =
         formatedDate + "_" + keywordGroup.name.replace(" ", "-") + ".csv";
-      console.log(keywordGroup);
       api.apiDownloadFile(keywordGroup["@id"] + ".csv", name);
     },
     sortFirstKeyword: async function () {

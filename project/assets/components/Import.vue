@@ -1,5 +1,12 @@
 <template>
   <div>
+    <div v-if="success !== null" class="row">
+      <div class="col-12">
+        <div class="alert alert-info">
+          Added {{success}} new keywords, error on {{failure}} keywords
+        </div>
+      </div>
+    </div>
     <div class="row">
       <div class="col-12">
         <h1>Import CSV</h1>
@@ -40,10 +47,14 @@ export default {
   data() {
     return {
       csv: null,
+      success: null,
+      failure: null
     };
   },
   methods: {
     submitCsv: function () {
+      let success = 0;
+      let failure = 0;
       if (this.csv === null) {
         alert("Please import file first");
         return;
@@ -57,15 +68,28 @@ export default {
           }
         });
         if (id !== undefined && id !== null) {
-          promises.push(api.apiPostKeyword({
-            name: element.keyword,
-            domain: id
-          }).catch(() => {console.log()}));
+          promises.push(
+            api
+              .apiPostKeyword({
+                name: element.keyword,
+                domain: id,
+              })
+              .then(() => success++)
+              .catch((error) => {
+                if (error.response) {
+                  failure++;
+                }
+              })
+          );
         }
       });
       console.log(promises);
-      //reload domains after all promises are solved
-      Promise.all(promises).then(() => {this.store.data.loadDomains()});
+      //reload domains after all promises are solvedsch
+      Promise.all(promises).then(() => {
+        this.store.data.loadDomains();
+        this.success = success;
+        this.failure = failure;
+      });
     },
   },
 };

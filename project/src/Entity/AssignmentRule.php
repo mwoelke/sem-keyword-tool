@@ -8,6 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
 use App\Validator as CustomAssert;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 #[ORM\Entity(repositoryClass: AssignmentRuleRepository::class)]
 #[
@@ -19,6 +20,7 @@ use App\Validator as CustomAssert;
         attributes: ['pagination_enabled' => false]
     )
 ]
+#[UniqueEntity(fields: ['keywordGroup', 'regexPattern'])] //rule has to be unique for given keywordGroup
 class AssignmentRule
 {
     #[ORM\Id]

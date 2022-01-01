@@ -25,5 +25,12 @@ services:
         decorates: 'api_platform.serializer.context_builder'
         arguments: [ '@App\Serializer\DomainContextBuilder.inner' ]
 
+    App\EventListener\KeywordCreatedListener:
+        tags:
+            - 
+                name: 'doctrine.orm.entity_listener'
+                event: 'postPersist'
+                entity: 'App\Entity\Keyword'
+
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones

@@ -5,7 +5,7 @@
     </div>
     <hr />
     <div class="row">
-      <div class="accordion">
+      <div class="accordion" v-if="keywordGroups.length > 0">
         <div
           v-for="keywordGroup in keywordGroups"
           :key="keywordGroup['@id']"
@@ -51,6 +51,7 @@
           </div>
         </div>
       </div>
+      <h2 v-else>Add some keyword groups in the Dashboard first!</h2>
     </div>
   </div>
 </template>

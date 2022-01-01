@@ -12,7 +12,7 @@
     </div>
     <hr />
     <div class="row">
-      <ul class="list-group">
+      <ul class="list-group" v-if="store.data.domains.length > 0">
         <li
           class="list-group-item p-3 fs-5 pointer"
           v-for="domain in store.data.domains"
@@ -23,6 +23,7 @@
           <span>{{ domain.name }}</span>
         </li>
       </ul>
+      <h2 v-else>Nothing here yet... Add a domain!</h2>
     </div>
   </div>
 </template>
