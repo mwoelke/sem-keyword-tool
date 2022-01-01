@@ -21,7 +21,15 @@
       </button>
     </div>
     <div class="row mt-5">
-      <button class="btn btn-primary" @click="sortNextKeyword">Next</button>
+      <button
+        class="btn btn-primary"
+        :class="{
+          disabled: store.data.state.activeDomain.amountUnsortedKeywords === 0,
+        }"
+        @click="sortNextKeyword"
+      >
+        Next unsorted
+      </button>
     </div>
   </div>
 </template>
@@ -62,6 +70,7 @@ export default {
           }
         });
       });
+      this.store.data.loadDomains();
     },
     //switch to next keyword on button click
     sortNextKeyword: async function () {
@@ -101,7 +110,7 @@ export default {
           });
         });
         //lock keyword for 60 seconds
-        api.apiLockKeyword(this.keyword.id)
+        api.apiLockKeyword(this.keyword.id);
       });
     },
   },

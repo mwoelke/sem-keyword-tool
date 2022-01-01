@@ -78,6 +78,7 @@ export default {
               .catch((error) => {
                 if (error.response) {
                   failure++;
+                  console.log(error);
                 }
               })
           );

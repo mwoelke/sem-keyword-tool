@@ -37,7 +37,7 @@ export default {
   props: ["store"],
   data() {
     return {
-      activeDomainId: 0
+      activeDomainId: this.store.data.state.activeDomain?.id
     };
   },
   //async mounted() {
