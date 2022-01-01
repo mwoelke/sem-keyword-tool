@@ -83,7 +83,6 @@ export default {
           );
         }
       });
-      console.log(promises);
       //reload domains after all promises are solvedsch
       Promise.all(promises).then(() => {
         this.store.data.loadDomains();

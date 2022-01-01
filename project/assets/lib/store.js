@@ -2,7 +2,7 @@ import api from './api'
 
 export default {
     data: {
-        debug: true,
+        debug: false,
         state: {
             activeDomain: null,
             keywordGroups: null
