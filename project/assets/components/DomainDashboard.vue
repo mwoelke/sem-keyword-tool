@@ -54,7 +54,6 @@
             </div>
             <div class="col-6">
               <router-link
-                tag="button"
                 class="btn btn-secondary float-end"
                 :class="[
                   store.data.state.activeDomain.amountKeywords == 0
@@ -144,10 +143,17 @@ export default {
   props: ["store"],
   async mounted() {
     await this.store.data.loadKeywordGroups();
-    //reload state since it might be old
-    await this.store.data.loadDomains();
+    this.update();
   },
   methods: {
+    /**
+     * Update every 10 seconds 
+     */
+    update: async function() {
+      await this.store.data.loadDomains();
+      setTimeout(this.update, 10000);
+    },
+
     /**
      * Show dialog to enter new keyword group and post to API
      */
