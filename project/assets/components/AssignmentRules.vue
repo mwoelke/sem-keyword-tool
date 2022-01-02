@@ -5,7 +5,7 @@
     </div>
     <hr />
     <div class="row">
-      <div class="accordion" v-if="keywordGroups.length > 0">
+      <div class="accordion" v-if="keywordGroups !== null && keywordGroups.length > 0">
         <div
           v-for="keywordGroup in keywordGroups"
           :key="keywordGroup['@id']"
