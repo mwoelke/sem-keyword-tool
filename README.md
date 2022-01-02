@@ -24,7 +24,7 @@ This will open a webserver on port 8080 and phpMyAdmin on port 8081 for debuggin
 Test credentials are user@user.de:sh7up#KT!
 
 ## API
-This tool utilized API Platform. OpenAPI docs can be found under `/api/`.
+This tool utilizes API Platform. OpenAPI docs can be found under `/api/`.
 Use HTTP Basic Auth when calling the API manually.
 
 ## Dependencies
@@ -33,9 +33,11 @@ Use HTTP Basic Auth when calling the API manually.
 
 ## Used technologies
 - Symfony 5.4 LTS
+- Doctrine ORM
 - Vue 2
 - API Platform 
-- Webpack
+- Webpack Encore
+- Bootstrap 5.1 w/ SCSS
 
 ## License
 AGPL 3.0, see LICENSE file
