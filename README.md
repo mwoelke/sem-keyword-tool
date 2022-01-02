@@ -12,19 +12,22 @@ This may be any valid PCRE regex pattern.
 
 Keyword groups can be downloaded with all their assigned keywords as CSV.
 
+A test
+
 ## Install
 I highly recommand utilizing the docker setup provided in this repository.
 
 1. Clone repository
-2. Build docker images via `docker-compose up`
-3. Execute `install.sh` to setup the container and install/compile dependencies. Use flag -f to _not_ load example data and test credentials.
-4. (optional) For use in production, change database credentials in `docker-compose.yml` and `project/.env`
+2. Build docker images via `docker-compose build` 
+3. Start containers via `docker-compose up -d`
+4. Execute `install.sh` to setup the container and install/compile dependencies. Use flag -f to _not_ load example data and test credentials.
+5. (optional) For use in production, change database credentials in `docker-compose.yml` and `project/.env`
 
 This will open a webserver on port 8080 and phpMyAdmin on port 8081 for debugging/testing.
-Test credentials are user@user.de:sh7up#KT!
+Test credentials: user@user.de:sh7up#KT!
 
 ## API
-This tool utilizes API Platform. OpenAPI docs can be found under `/api/`.
+This tool utilizes API Platform. OpenAPI docs can be found on `/api/`.
 Use HTTP Basic Auth when calling the API manually.
 
 ## Dependencies
