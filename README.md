@@ -18,6 +18,8 @@ Import this on the _Import_ page (Has headers = true)
 ## Install
 I highly recommand utilizing the docker setup provided in this repository.
 
+IMPORTANT: Run from Linux file system when using WSL, windows file system will be horrible slow/unusable.  
+
 1. Clone repository
 2. Build docker images via `docker-compose build` 
 3. Start containers via `docker-compose up -d`
