@@ -6,7 +6,7 @@
       </h1>
       <h1 v-else>All keywords in group</h1>
     </div>
-    <hr>
+    <hr />
     <div class="row">
       <table class="table table-striped table-hover">
         <thead>
@@ -44,13 +44,11 @@ export default {
   async mounted() {
     if (this.$route.params.keyword_group !== undefined) {
       this.keywords = await api.apiGetAllKeywordsForKeywordGroup(
-        this.$route.params.keyword_group,
-        1
+        this.$route.params.keyword_group
       );
     } else {
       this.keywords = await api.apiGetAllKeywordsForDomain(
-        this.store.data.state.activeDomain.id,
-        1
+        this.store.data.state.activeDomain.id
       );
     }
   },

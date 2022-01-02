@@ -20,7 +20,6 @@ use Symfony\Component\Serializer\Annotation\Groups;
         collectionOperations: ['get', 'post'],
         normalizationContext: ['groups' => ['keyword_groups:read']],
         denormalizationContext: ['groups' => ['keyword_groups:write']],
-        attributes: ['pagination_items_per_page' => 30], //show 30 entries per page (/api/keyword_groups?page=1 etc.)
         formats: ['jsonld', 'json', 'csv' => ['text/csv']] //allow csv export 
     )
 ]

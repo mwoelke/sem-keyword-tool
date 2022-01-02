@@ -39,22 +39,20 @@ export default {
 
     /**
      * @param {number} domain 
-     * @param {number} pageId 
      * @returns {Promise} Promise
      */
-    apiGetAllKeywordsForDomain(domainId, pageId) {
-        return axios.get("/api/keywords?page=" + pageId + "&domain.id=" + domainId)
+    apiGetAllKeywordsForDomain(domainId) {
+        return axios.get("/api/keywords?domain.id=" + domainId)
             .then((response) => response.data["hydra:member"]);
     },
 
     /**
      * 
      * @param {number} groupId
-     * @param {number} page 
      * @returns {Promise} Promise
      */
-    apiGetAllKeywordsForKeywordGroup(groupId, page) {
-        return axios.get("/api/keywords?page=" + page + "&keywordGroups.id=" + groupId)
+    apiGetAllKeywordsForKeywordGroup(groupId) {
+        return axios.get("/api/keywords?keywordGroups.id=" + groupId)
             .then((response) => response.data["hydra:member"]);
     },
 

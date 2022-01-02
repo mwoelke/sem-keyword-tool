@@ -16,8 +16,7 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
         itemOperations: ['get', 'delete', 'put'],
         collectionOperations: ['get', 'post'],
         normalizationContext: ['groups' => ['assignmentRules:read']],
-        denormalizationContext: ['groups' => ['assignmentRules:write']],
-        attributes: ['pagination_enabled' => false]
+        denormalizationContext: ['groups' => ['assignmentRules:write']]
     )
 ]
 #[UniqueEntity(fields: ['keywordGroup', 'regexPattern'])] //rule has to be unique for given keywordGroup

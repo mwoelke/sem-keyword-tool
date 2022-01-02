@@ -20,8 +20,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
         itemOperations: ['get', 'delete', 'put'],
         collectionOperations: ['get', 'post'],
         normalizationContext: ['groups' => ['keywords:read']],
-        denormalizationContext: ['groups' => ['keywords:write']],
-        attributes: ['pagination_items_per_page' => 15] //show 15 entries per page (/api/keywords?page=1 etc.)
+        denormalizationContext: ['groups' => ['keywords:write']]
     )
 ]
 #[UniqueEntity(fields: ['name', 'domain'])] //keyword has to be unique for given domain
