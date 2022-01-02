@@ -12,7 +12,8 @@ This may be any valid PCRE regex pattern.
 
 Keyword groups can be downloaded with all their assigned keywords as CSV.
 
-A test
+A csv with test data is provided: example_import.csv
+Import this on the _Import_ page (Has headers = true)
 
 ## Install
 I highly recommand utilizing the docker setup provided in this repository.
