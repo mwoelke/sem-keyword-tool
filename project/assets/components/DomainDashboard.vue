@@ -25,11 +25,11 @@
               {{ store.data.state.activeDomain.amountUnsortedKeywords }}
               <span
                 v-if="store.data.state.activeDomain.amountLockedKeywords > 0"
-              >
+              ><em>
                 ({{
                   store.data.state.activeDomain.amountLockedKeywords
                 }}
-                locked)
+                locked)</em>
               </span>
             </li>
             <li class="list-group-item">
@@ -73,6 +73,7 @@
             <div class="row">
               <div class="col-8">
                 <h2 class="card-title">Keyword groups</h2>
+                <small>Click on a keyword group to see all keywords</small>
               </div>
               <div class="col-4 align-self-end">
                 <button

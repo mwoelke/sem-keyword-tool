@@ -2,10 +2,12 @@
   <div>
     <div class="row">
       <h1 class="col-12">"{{ keyword === null ? "" : keyword.name }}"</h1>
+      <small>Keyword is locked for 60 seconds to prevent multiple users editing it.</small>
     </div>
     <hr />
     <div class="row">
       <h2 class="col-12">Edit keyword groups</h2>
+      <small>Click on the keyword groups this keyword belongs to.</small>
     </div>
     <div class="row justify-content-center">
       <button
@@ -30,6 +32,7 @@
       >
         Next unsorted
       </button>
+      <div v-if="store.data.state.activeDomain.amountUnsortedKeywords === 0" class="alert mt-5 text-center alert-success">All sorted<br><i style="font-size: 200%" class="bi bi-emoji-heart-eyes"></i></div>
     </div>
   </div>
 </template>

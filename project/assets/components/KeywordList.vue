@@ -5,10 +5,14 @@
         All keywords for domain
       </h1>
       <h1 v-else>All keywords in group</h1>
+      <small>Click on a keyword to see/edit groups</small>
     </div>
     <hr />
     <div class="row">
-      <table class="table table-striped table-hover">
+      <table
+        class="table table-striped table-hover"
+        v-if="keywords !== null && keywords.length > 0"
+      >
         <thead>
           <tr>
             <th>Keyword</th>
@@ -20,13 +24,15 @@
             v-for="keyword in keywords"
             :key="keyword['@id']"
             @click="editKeyword(keyword)"
-            class="pointer"
+            :class="{ pointer: !keyword.locked }"
           >
-            <td>{{ keyword.name }}</td>
+            <td v-if="keyword.locked === false">{{ keyword.name }}</td>
+            <td v-else>{{ keyword.name }} <em>(locked)</em></td>
             <td>{{ keyword.amountKeywordGroups }}</td>
           </tr>
         </tbody>
       </table>
+      <h2 v-else>No keywords assigned... :(</h2>
     </div>
   </div>
 </template>
@@ -42,19 +48,26 @@ export default {
     };
   },
   async mounted() {
-    if (this.$route.params.keyword_group !== undefined) {
-      this.keywords = await api.apiGetAllKeywordsForKeywordGroup(
-        this.$route.params.keyword_group
-      );
-    } else {
-      this.keywords = await api.apiGetAllKeywordsForDomain(
-        this.store.data.state.activeDomain.id
-      );
-    }
+    this.getKeywords();
   },
   methods: {
     editKeyword(keyword) {
-      this.$router.push("/keyword/" + keyword.id);
+      if (!keyword.locked) this.$router.push("/keyword/" + keyword.id);
+    },
+    /**
+     * Update list every 10 seconds
+     */
+    async getKeywords() {
+      if (this.$route.params.keyword_group !== undefined) {
+        this.keywords = await api.apiGetAllKeywordsForKeywordGroup(
+          this.$route.params.keyword_group
+        );
+      } else {
+        this.keywords = await api.apiGetAllKeywordsForDomain(
+          this.store.data.state.activeDomain.id
+        );
+      }
+      setTimeout(this.getKeywords, 10000);
     },
   },
 };

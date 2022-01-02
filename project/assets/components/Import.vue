@@ -10,6 +10,7 @@
     <div class="row">
       <div class="col-12">
         <h1>Import CSV</h1>
+        <small>Import a csv file and then assign the corresponding fields</small>
       </div>
     </div>
     <hr />
@@ -27,7 +28,7 @@
       </template>
 
       <template slot="next" slot-scope="{ load }">
-        <button class="btn btn-primary mt-2" @click.prevent="load">Load</button>
+        <button class="btn btn-primary mt-2 mb-5" @click.prevent="load">Load</button>
       </template>
     </vue-csv-import>
     <template v-if="csv !== null">

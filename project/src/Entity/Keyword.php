@@ -66,6 +66,21 @@ class Keyword
         $this->lockedAt = null;
     }
 
+    /**
+     * Is keyword locked right now?
+     * Api resource.
+     * @return boolean
+     */
+    #[Groups(['keywords:read'])]
+    public function isLocked(): bool
+    {
+        if($this->getLockedAt() === null) {
+            return false;
+        }
+        $now = (new DateTimeImmutable('now', new \DateTimeZone('UTC')))->getTimestamp();
+        return (($now - $this->getLockedAt()->getTimestamp()) < 60);
+    }
+
     public function getId(): ?int
     {
         return $this->id;

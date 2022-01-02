@@ -22,8 +22,13 @@ class ExampleDataFixtures extends Fixture
 
         $group = new KeywordGroup();
         $group->setDomain($domain);
-        $group->setName('Ravioli');
+        $group->setName('Pasta');
         $manager->persist($group);
+
+        $group2 = new KeywordGroup();
+        $group2->setDomain($domain);
+        $group2->setName('Overused pop culture references');
+        $manager->persist($group2);
 
         $rule = new AssignmentRule();
         $rule->setKeywordGroup($group);

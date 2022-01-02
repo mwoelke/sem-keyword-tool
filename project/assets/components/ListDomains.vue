@@ -3,6 +3,7 @@
     <div class="row">
       <div class="col-10">
         <h1>Domains</h1>
+        <small>Choose a domain</small>
       </div>
       <div class="col-2 align-self-end">
         <button class="btn btn-secondary float-end m-t-2" @click="addNewDomain">
@@ -30,7 +31,6 @@
 
 <script>
 import axios from "axios";
-import api from "../lib/api.js";
 
 export default {
   name: "ListDomains",
